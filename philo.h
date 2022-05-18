@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct s_args
 {
@@ -27,21 +28,23 @@ typedef struct s_args
 	int	num_of_must_eat;
 }	t_args;
 
-typedef struct s_general
+typedef struct s_info
 {
 	// general infos;
-}	t_general;
+	struct timeval	*start;
+}	t_info;
 
 typedef struct s_philo
 {
 	int	id;
 	int	eat_count;
 	int	death;
-	t_general	*info;
+	t_info	*info;
 	t_args	*args;
 }	t_philo;
 
 t_args	*t_args_init(void);
+t_info	*t_info_init(void);
 int		ft_atoi(char *s);
 
 #endif

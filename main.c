@@ -28,11 +28,17 @@ void	parse_input(t_args **args, int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_args	*args;
+	t_info	*info;
+	struct timeval	curr;
 	//pthread_t	*philos;
 
 	args = t_args_init();
+	info = t_info_init();
 	printf("argc : %d\n", argc);
 	parse_input(&args, argc, argv);
-	printf("philo_num : %d", args->philo_num);
+	printf("philo_num : %d\n", args->philo_num);
+	usleep(1000 * 1000);
+	gettimeofday(&curr, NULL);
+	printf("curr - start : %f sec\n", (double)(curr.tv_sec - info->start->tv_sec));
 	return (0);
 }

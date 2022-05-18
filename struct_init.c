@@ -14,3 +14,21 @@ t_args	*t_args_init(void)
 	new->num_of_must_eat = 0;
 	return (new);
 }
+
+t_info	*t_info_init(void)
+{
+	t_info	*new;
+
+	new = malloc(sizeof(t_info));
+	if (!new)
+		return (NULL);
+	new->start = malloc(sizeof(struct timeval));
+	if (!(new->start))
+	{
+		free(new);
+		new = NULL;
+		return (NULL);
+	}
+	gettimeofday(new->start, NULL);
+	return (new);
+}
