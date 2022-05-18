@@ -48,6 +48,8 @@ typedef struct s_philo
 t_args	*t_args_init(void);
 t_info	*t_info_init(t_args *args);
 t_philo	*t_philo_init(t_info *info, t_args *args);
+t_philo	*philo_on_the_table(t_args *args, t_info *info);
+void	*take_forks(void *philo);
 int		ft_atoi(char *s);
 
 #endif
