@@ -32,6 +32,7 @@ typedef struct s_info
 {
 	// general infos;
 	struct timeval	*start;
+	pthread_mutex_t	*forks;
 }	t_info;
 
 typedef struct s_philo
@@ -41,10 +42,12 @@ typedef struct s_philo
 	int	death;
 	t_info	*info;
 	t_args	*args;
+	pthread_t	philo;
 }	t_philo;
 
 t_args	*t_args_init(void);
-t_info	*t_info_init(void);
+t_info	*t_info_init(t_args *args);
+t_philo	*t_philo_init(t_info *info, t_args *args);
 int		ft_atoi(char *s);
 
 #endif

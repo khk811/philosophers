@@ -15,7 +15,25 @@ t_args	*t_args_init(void)
 	return (new);
 }
 
-t_info	*t_info_init(void)
+static pthread_mutex_t	*fork_init(t_args *args)
+{
+	pthread_mutex_t	*forks;
+	int				num;
+
+	num = args->philo_num;
+	forks = malloc(sizeof(pthread_mutex_t) * num);
+	if (!forks)
+		return (NULL);
+	num = 0;
+	while (num < args->philo_num)
+	{
+		pthread_mutex_init(&(forks[num]), NULL);
+		num++;
+	}
+	return (forks);
+}
+
+t_info	*t_info_init(t_args *args)
 {
 	t_info	*new;
 
@@ -30,5 +48,6 @@ t_info	*t_info_init(void)
 		return (NULL);
 	}
 	gettimeofday(new->start, NULL);
+	new->forks = fork_init(args);
 	return (new);
 }
