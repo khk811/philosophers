@@ -22,8 +22,6 @@ void	parse_input(t_args **args, int argc, char **argv)
 		(*args)->time_to_sleep = ft_atoi(argv[4]);
 		if (argc == 6)
 			(*args)->num_of_must_eat = ft_atoi(argv[5]);
-		else
-			(*args)->num_of_must_eat = 0;
 	}
 }
 
@@ -32,7 +30,7 @@ int	main(int argc, char **argv)
 	t_args	*args;
 	//pthread_t	*philos;
 
-	args = malloc(sizeof(t_args));
+	args = t_args_init();
 	printf("argc : %d\n", argc);
 	parse_input(&args, argc, argv);
 	printf("philo_num : %d", args->philo_num);

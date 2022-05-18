@@ -15,6 +15,7 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 RM=rm -f
 SRC=main.c \
+	struct_init.c \
 	utils.c
 OBJ=$(SRC:.c=.o)
 
