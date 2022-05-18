@@ -31,6 +31,18 @@ void	decide_fork_priority(t_philo *philo, int *right, int *left)
 	}
 }
 
+void	is_death_near(t_philo *philo)
+{
+	struct timeval	curr_time;
+	int	remained_time;
+
+	gettimeofday(&curr_time, NULL);
+	remained_time = curr_time.tv_usec - (philo->info->start->tv_usec);
+	printf("philo[%d] has %d u-seconds left\n", philo->id, remained_time);
+	if (remained_time == 0)
+		printf("philo[%d] should die now\n", philo->id);
+}
+
 void	*take_forks(void *philo)
 {
 	t_philo	*the_philo;
@@ -42,6 +54,7 @@ void	*take_forks(void *philo)
 	pthread_mutex_lock(&(the_philo->info->forks[right_fork]));
 	pthread_mutex_lock(&(the_philo->info->forks[left_fork]));
 	printf("philo[%d] is eating\n", the_philo->id);
+	is_death_near(the_philo);
 	usleep((the_philo->args->time_to_eat) * 1000);
 	pthread_mutex_unlock(&(the_philo->info->forks[left_fork]));
 	pthread_mutex_unlock(&(the_philo->info->forks[right_fork]));
@@ -67,18 +80,13 @@ int	main(int argc, char **argv)
 {
 	t_args	*args;
 	t_info	*info;
-	struct timeval	curr;
 	t_philo	*philos;
 	int	i;
 
 	args = t_args_init();
 	info = t_info_init(args);
-	printf("argc : %d\n", argc);
 	parse_input(&args, argc, argv);
-	printf("philo_num : %d\n", args->philo_num);
-	usleep(1000 * 1000);
-	gettimeofday(&curr, NULL);
-	printf("curr - start : %f sec\n", (double)(curr.tv_sec - info->start->tv_sec));
+	printf("<< total philo_num : %d>>\n\n", args->philo_num);
 	philos = philo_on_the_table(args, info);
 	i = 0;
 	while (i < args->philo_num)
