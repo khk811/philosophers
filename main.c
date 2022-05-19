@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/19 14:05:58 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/19 15:00:50 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,21 @@ void	decide_fork_priority(t_philo *philo, int *right, int *left)
 	}
 }
 
-int	make_timestamp(struct timeval *start)
+size_t	get_milisecond(int sec, int usec)
+{
+	return ((sec * 1000) + (usec / 1000));
+}
+
+size_t	make_timestamp(struct timeval *start)
 {
 	struct timeval	curr;
-	int	timestamp;
+	size_t	curr_time;
+	size_t	start_time;
 
 	gettimeofday(&curr, NULL);
-	timestamp = (curr.tv_usec - start->tv_usec);
-	return (timestamp);
+	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
+	start_time = get_milisecond(start->tv_sec, start->tv_usec);
+	return (curr_time - start_time);
 }
 
 void	*take_forks(void *philo)
@@ -51,11 +58,11 @@ void	*take_forks(void *philo)
 	decide_fork_priority(the_philo, &right_fork, &left_fork);
 	pthread_mutex_lock(&(the_philo->info->forks[right_fork]));
 	pthread_mutex_lock(&(the_philo->info->forks[left_fork]));
-	printf("%d(us) %d is eating\n", make_timestamp(the_philo->info->start), the_philo->id);
+	printf("%zu %d is eating L: %d R: %d\n", make_timestamp(the_philo->info->start), the_philo->id, left_fork, right_fork);
 	usleep((the_philo->args->time_to_eat) * 1000);
 	pthread_mutex_unlock(&(the_philo->info->forks[left_fork]));
 	pthread_mutex_unlock(&(the_philo->info->forks[right_fork]));
-	printf("%d(us) %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
+	printf("%zu %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
 	usleep((the_philo->args->time_to_sleep) * 1000);
 	return (NULL);
 }

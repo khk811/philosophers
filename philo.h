@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/17 21:10:18 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/19 14:23:31 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_info
 	// general infos;
 	struct timeval	*start;
 	pthread_mutex_t	*forks;
+	// int fork_something arr idk;
 }	t_info;
 
 typedef struct s_philo
