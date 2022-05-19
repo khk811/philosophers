@@ -69,7 +69,9 @@ t_philo	*philo_on_the_table(t_args *args, t_info *info)
 	{
 		(philos[i]).id = i;
 		(philos[i]).eat_count = 0;
-		(philos[i]).death = args->time_to_die;
+		(philos[i]).last_meal = malloc(sizeof(struct timeval));
+		gettimeofday(philos[i].last_meal, NULL);
+		(philos[i]).death = 0;
 		(philos[i]).info = info;
 		(philos[i]).args = args;
 		pthread_create(&(philos[i].philo), NULL, take_forks, (void *)(&philos[i]));

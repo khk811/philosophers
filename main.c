@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/19 16:15:26 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/19 21:24:28 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,24 @@ void	grep_forks(t_philo *philo)
 {
 	int		right_fork;
 	int		left_fork;
+	struct timeval	duration;
 
+	if (philo->args->time_to_die <= (int)make_timestamp(philo->last_meal))
+		philo->death = 1;
+	if (philo->death)
+		return ;
 	decide_fork_priority(philo, &right_fork, &left_fork);
 	pthread_mutex_lock(&(philo->info->forks[right_fork]));
 	pthread_mutex_lock(&(philo->info->forks[left_fork]));
-	/*
+	gettimeofday(&duration, NULL);
+	gettimeofday(philo->last_meal, NULL);
+	print_statement(philo, "is eating");
+	usleep((philo->args->time_to_eat * 900));
 	while (1)
 	{
-		//loop???
-		// break - cond;
-		// eat time calibrate;
+		if ((int)make_timestamp(&duration) >= philo->args->time_to_eat)
+			break ;
 	}
-	*/
 	return ;
 }
 
@@ -88,20 +94,27 @@ void	*take_forks(void *philo)
 {
 	t_philo	*the_philo;
 
-	while (1)
+	the_philo = (t_philo *)philo;
+	while (!(the_philo->death))
 	{
-		the_philo = (t_philo *)philo;
+		if (the_philo->args->time_to_die <= (int)make_timestamp(the_philo->last_meal))
+			the_philo->death = 1;
+		if (the_philo->death)
+			break ;
 		grep_forks(the_philo);
-		// printf("%zu %d is eating\n", make_timestamp(the_philo->info->start), the_philo->id);
-		print_statement(the_philo, "is eating");
-		usleep((the_philo->args->time_to_eat) * 1000);
+		if (the_philo->death)
+			break ;
 		leave_forks(the_philo);
-		// printf("%zu %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
 		print_statement(the_philo, "is sleeping");
 		usleep((the_philo->args->time_to_sleep) * 1000);
-		// printf("%zu %d is thinking\n", make_timestamp(the_philo->info->start), the_philo->id);
+		if (the_philo->args->time_to_die <= (int)make_timestamp(the_philo->last_meal))
+			the_philo->death = 1;
+		if (the_philo->death)
+			break ;
 		print_statement(the_philo, "is thinking");
 	}
+	if (the_philo->death)
+		print_statement(the_philo, "died");
 	return (NULL);
 }
 
