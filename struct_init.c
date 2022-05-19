@@ -49,6 +49,10 @@ t_info	*t_info_init(t_args *args)
 	}
 	gettimeofday(new->start, NULL);
 	new->forks = fork_init(args);
+	new->print = malloc(sizeof(pthread_mutex_t));
+	if (!new->print)
+		return (NULL);
+	pthread_mutex_init(new->print, NULL);
 	return (new);
 }
 

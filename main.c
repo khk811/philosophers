@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/19 15:54:05 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/19 16:15:26 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ void	grep_forks(t_philo *philo)
 	decide_fork_priority(philo, &right_fork, &left_fork);
 	pthread_mutex_lock(&(philo->info->forks[right_fork]));
 	pthread_mutex_lock(&(philo->info->forks[left_fork]));
+	/*
 	while (1)
 	{
 		//loop???
 		// break - cond;
+		// eat time calibrate;
 	}
+	*/
 	return ;
 }
 
@@ -74,6 +77,13 @@ void	leave_forks(t_philo *philo)
 	pthread_mutex_unlock(&(philo->info->forks[right_fork]));
 }
 
+void	print_statement(t_philo *philo, char *s)
+{
+	pthread_mutex_lock(philo->info->print);
+	printf("%zu %d %s\n", make_timestamp(philo->info->start), philo->id, s);
+	pthread_mutex_unlock(philo->info->print);
+}
+
 void	*take_forks(void *philo)
 {
 	t_philo	*the_philo;
@@ -82,12 +92,15 @@ void	*take_forks(void *philo)
 	{
 		the_philo = (t_philo *)philo;
 		grep_forks(the_philo);
-		printf("%zu %d is eating\n", make_timestamp(the_philo->info->start), the_philo->id);
+		// printf("%zu %d is eating\n", make_timestamp(the_philo->info->start), the_philo->id);
+		print_statement(the_philo, "is eating");
 		usleep((the_philo->args->time_to_eat) * 1000);
 		leave_forks(the_philo);
-		printf("%zu %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
+		// printf("%zu %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
+		print_statement(the_philo, "is sleeping");
 		usleep((the_philo->args->time_to_sleep) * 1000);
-		printf("%zu %d is thinking\n", make_timestamp(the_philo->info->start), the_philo->id);
+		// printf("%zu %d is thinking\n", make_timestamp(the_philo->info->start), the_philo->id);
+		print_statement(the_philo, "is thinking");
 	}
 	return (NULL);
 }
