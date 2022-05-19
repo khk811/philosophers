@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/19 15:00:50 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/19 15:54:05 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,47 @@ size_t	make_timestamp(struct timeval *start)
 	return (curr_time - start_time);
 }
 
-void	*take_forks(void *philo)
+void	grep_forks(t_philo *philo)
 {
-	t_philo	*the_philo;
 	int		right_fork;
 	int		left_fork;
 
-	the_philo = (t_philo *)philo;
-	decide_fork_priority(the_philo, &right_fork, &left_fork);
-	pthread_mutex_lock(&(the_philo->info->forks[right_fork]));
-	pthread_mutex_lock(&(the_philo->info->forks[left_fork]));
-	printf("%zu %d is eating L: %d R: %d\n", make_timestamp(the_philo->info->start), the_philo->id, left_fork, right_fork);
-	usleep((the_philo->args->time_to_eat) * 1000);
-	pthread_mutex_unlock(&(the_philo->info->forks[left_fork]));
-	pthread_mutex_unlock(&(the_philo->info->forks[right_fork]));
-	printf("%zu %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
-	usleep((the_philo->args->time_to_sleep) * 1000);
+	decide_fork_priority(philo, &right_fork, &left_fork);
+	pthread_mutex_lock(&(philo->info->forks[right_fork]));
+	pthread_mutex_lock(&(philo->info->forks[left_fork]));
+	while (1)
+	{
+		//loop???
+		// break - cond;
+	}
+	return ;
+}
+
+void	leave_forks(t_philo *philo)
+{
+	int		right_fork;
+	int		left_fork;
+
+	decide_fork_priority(philo, &right_fork, &left_fork);
+	pthread_mutex_unlock(&(philo->info->forks[left_fork]));
+	pthread_mutex_unlock(&(philo->info->forks[right_fork]));
+}
+
+void	*take_forks(void *philo)
+{
+	t_philo	*the_philo;
+
+	while (1)
+	{
+		the_philo = (t_philo *)philo;
+		grep_forks(the_philo);
+		printf("%zu %d is eating\n", make_timestamp(the_philo->info->start), the_philo->id);
+		usleep((the_philo->args->time_to_eat) * 1000);
+		leave_forks(the_philo);
+		printf("%zu %d is sleeping\n", make_timestamp(the_philo->info->start), the_philo->id);
+		usleep((the_philo->args->time_to_sleep) * 1000);
+		printf("%zu %d is thinking\n", make_timestamp(the_philo->info->start), the_philo->id);
+	}
 	return (NULL);
 }
 
@@ -88,8 +113,8 @@ int	main(int argc, char **argv)
 	int	i;
 
 	args = t_args_init();
-	info = t_info_init(args);
 	parse_input(&args, argc, argv);
+	info = t_info_init(args);
 	printf("<< total philo_num : %d>>\n\n", args->philo_num);
 	philos = philo_on_the_table(args, info);
 	i = 0;

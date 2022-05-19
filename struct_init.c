@@ -27,7 +27,7 @@ static pthread_mutex_t	*fork_init(t_args *args)
 	num = 0;
 	while (num < args->philo_num)
 	{
-		pthread_mutex_init(&(forks[num]), NULL);
+		pthread_mutex_init(&forks[num], NULL);
 		num++;
 	}
 	return (forks);
