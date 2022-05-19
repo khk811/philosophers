@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/17 21:34:07 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/19 14:05:58 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ void	decide_fork_priority(t_philo *philo, int *right, int *left)
 	}
 }
 
-void	is_death_near(t_philo *philo)
-{
-	struct timeval	curr_time;
-	int	remained_time;
-
-	gettimeofday(&curr_time, NULL);
-	remained_time = curr_time.tv_usec - (philo->info->start->tv_usec);
-	printf("%d has %d(us) left\n", philo->id, remained_time);
-	if (remained_time == 0)
-		printf("%d should die now\n", philo->id);
-}
-
 int	make_timestamp(struct timeval *start)
 {
 	struct timeval	curr;
@@ -64,7 +52,6 @@ void	*take_forks(void *philo)
 	pthread_mutex_lock(&(the_philo->info->forks[right_fork]));
 	pthread_mutex_lock(&(the_philo->info->forks[left_fork]));
 	printf("%d(us) %d is eating\n", make_timestamp(the_philo->info->start), the_philo->id);
-	is_death_near(the_philo);
 	usleep((the_philo->args->time_to_eat) * 1000);
 	pthread_mutex_unlock(&(the_philo->info->forks[left_fork]));
 	pthread_mutex_unlock(&(the_philo->info->forks[right_fork]));
