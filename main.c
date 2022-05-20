@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/20 13:34:42 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/20 17:05:25 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,23 @@ size_t	make_timestamp(struct timeval *start)
 	return (curr_time - start_time);
 }
 
+void	should_philo_die(t_philo *philo)
+{
+	int	starve_time;
+
+	starve_time = (int)make_timestamp(philo->last_meal);
+	if (philo->args->time_to_die <= starve_time)
+		philo->is_dead = 1;
+}
+
 void	grep_forks(t_philo *philo)
 {
 	int		right_fork;
 	int		left_fork;
 	struct timeval	duration;
 
-	if (philo->args->time_to_die <= (int)make_timestamp(philo->last_meal))
-		philo->death = 1;
-	if (philo->death)
+	should_philo_die(philo);
+	if (philo->is_dead)
 		return ;
 	decide_fork_priority(philo, &right_fork, &left_fork);
 	pthread_mutex_lock(&(philo->info->forks[right_fork]));
@@ -95,25 +103,23 @@ void	*philos_simulation(void *philo)
 	t_philo	*the_philo;
 
 	the_philo = (t_philo *)philo;
-	while (!(the_philo->death))
+	while (!(the_philo->is_dead))
 	{
-		if (the_philo->args->time_to_die <= (int)make_timestamp(the_philo->last_meal))
-			the_philo->death = 1;
-		if (the_philo->death)
+		should_philo_die(the_philo);
+		if (the_philo->is_dead)
 			break ;
 		grep_forks(the_philo);
-		if (the_philo->death)
+		if (the_philo->is_dead)
 			break ;
 		leave_forks(the_philo);
 		print_statement(the_philo, "is sleeping");
 		usleep((the_philo->args->time_to_sleep) * 1000);
-		if (the_philo->args->time_to_die <= (int)make_timestamp(the_philo->last_meal))
-			the_philo->death = 1;
-		if (the_philo->death)
+		should_philo_die(the_philo);
+		if (the_philo->is_dead)
 			break ;
 		print_statement(the_philo, "is thinking");
 	}
-	if (the_philo->death)
+	if (the_philo->is_dead)
 		print_statement(the_philo, "died");
 	return (NULL);
 }

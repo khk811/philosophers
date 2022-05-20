@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/20 13:34:36 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/20 17:01:44 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct s_info
 	struct timeval	*start;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print;
+	pthread_mutex_t	*death;
+	int				death_flag;
+	// death_flag -> 1 -->
 	// int fork_something arr idk;
 }	t_info;
 
@@ -42,7 +45,7 @@ typedef struct s_philo
 	int	id;
 	int	eat_count;
 	struct timeval	*last_meal;
-	int	death;
+	int	is_dead;
 	t_info	*info;
 	t_args	*args;
 	pthread_t	philo;

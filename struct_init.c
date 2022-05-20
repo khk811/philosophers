@@ -71,7 +71,7 @@ t_philo	*philos_init(t_args *args, t_info *info)
 		(philos[i]).eat_count = 0;
 		(philos[i]).last_meal = malloc(sizeof(struct timeval));
 		gettimeofday(philos[i].last_meal, NULL);
-		(philos[i]).death = 0;
+		(philos[i]).is_dead = 0;
 		(philos[i]).info = info;
 		(philos[i]).args = args;
 		pthread_create(&(philos[i].philo), NULL, philos_simulation, (void *)(&philos[i]));
