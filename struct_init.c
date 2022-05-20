@@ -67,14 +67,33 @@ t_philo	*philos_init(t_args *args, t_info *info)
 	i = 0;
 	while (i < args->philo_num)
 	{
-		(philos[i]).id = i;
-		(philos[i]).eat_count = 0;
-		(philos[i]).last_meal = malloc(sizeof(struct timeval));
-		gettimeofday(philos[i].last_meal, NULL);
-		(philos[i]).is_dead = 0;
-		(philos[i]).info = info;
-		(philos[i]).args = args;
-		pthread_create(&(philos[i].philo), NULL, philos_simulation, (void *)(&philos[i]));
+		if (i % 2 == 0)
+		{
+			(philos[i]).id = i;
+			(philos[i]).eat_count = 0;
+			(philos[i]).last_meal = malloc(sizeof(struct timeval));
+			gettimeofday(philos[i].last_meal, NULL);
+			(philos[i]).is_dead = 0;
+			(philos[i]).info = info;
+			(philos[i]).args = args;
+			pthread_create(&(philos[i].philo), NULL, philos_simulation, (void *)(&philos[i]));
+		}
+		i++;
+	}
+	i = 0;
+	while (i < args->philo_num)
+	{
+		if (i % 2 != 0)
+		{
+			(philos[i]).id = i;
+			(philos[i]).eat_count = 0;
+			(philos[i]).last_meal = malloc(sizeof(struct timeval));
+			gettimeofday(philos[i].last_meal, NULL);
+			(philos[i]).is_dead = 0;
+			(philos[i]).info = info;
+			(philos[i]).args = args;
+			pthread_create(&(philos[i].philo), NULL, philos_simulation, (void *)(&philos[i]));
+		}
 		i++;
 	}
 	return (philos);
