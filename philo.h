@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/19 17:03:48 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/20 13:34:36 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ typedef struct s_philo
 
 t_args	*t_args_init(void);
 t_info	*t_info_init(t_args *args);
-t_philo	*t_philo_init(t_info *info, t_args *args);
+t_philo	*philos_init(t_args *args, t_info *info);
 size_t	get_milisecond(int sec, int usec);
-t_philo	*philo_on_the_table(t_args *args, t_info *info);
-void	*take_forks(void *philo);
+void	*philos_simulation(void *philo);
 void	print_statement(t_philo *philo, char *s);
 int		ft_atoi(char *s);
 

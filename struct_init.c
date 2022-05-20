@@ -56,7 +56,7 @@ t_info	*t_info_init(t_args *args)
 	return (new);
 }
 
-t_philo	*philo_on_the_table(t_args *args, t_info *info)
+t_philo	*philos_init(t_args *args, t_info *info)
 {
 	t_philo	*philos;
 	int		i;
@@ -74,7 +74,7 @@ t_philo	*philo_on_the_table(t_args *args, t_info *info)
 		(philos[i]).death = 0;
 		(philos[i]).info = info;
 		(philos[i]).args = args;
-		pthread_create(&(philos[i].philo), NULL, take_forks, (void *)(&philos[i]));
+		pthread_create(&(philos[i].philo), NULL, philos_simulation, (void *)(&philos[i]));
 		i++;
 	}
 	return (philos);

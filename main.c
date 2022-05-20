@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/19 21:24:28 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/20 13:34:42 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	print_statement(t_philo *philo, char *s)
 	pthread_mutex_unlock(philo->info->print);
 }
 
-void	*take_forks(void *philo)
+void	*philos_simulation(void *philo)
 {
 	t_philo	*the_philo;
 
@@ -142,7 +142,7 @@ int	main(int argc, char **argv)
 	parse_input(&args, argc, argv);
 	info = t_info_init(args);
 	printf("<< total philo_num : %d>>\n\n", args->philo_num);
-	philos = philo_on_the_table(args, info);
+	philos = philos_init(args, info);
 	i = 0;
 	while (i < args->philo_num)
 	{
