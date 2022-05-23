@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/20 19:36:30 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/23 13:14:37 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ t_info	*t_info_init(t_args *args);
 t_philo	*philos_init(t_args *args, t_info *info);
 size_t	get_milisecond(int sec, int usec);
 void	*philos_simulation(void *philo);
+int		should_philo_die(t_philo *philo);
+void	decide_fork_priority(t_philo *philo, int *right, int *left);
+size_t	make_timestamp(struct timeval *start);
+int		grep_forks(t_philo *philo);
+void	leave_forks(t_philo *philo);
+int		eat_spaghetti(t_philo *philo);
+int		sleep_after_diner(t_philo *philo);
 void	print_statement(t_philo *philo, char *s);
 int		ft_atoi(char *s);
 

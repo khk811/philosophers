@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/20 19:52:52 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/23 13:13:21 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,74 +48,14 @@ size_t	make_timestamp(struct timeval *start)
 	return (curr_time - start_time);
 }
 
-void	should_philo_die(t_philo *philo)
+int	should_philo_die(t_philo *philo)
 {
 	int	starve_time;
 
 	starve_time = (int)make_timestamp(philo->last_meal);
 	if (philo->args->time_to_die <= starve_time)
 		philo->is_dead = 1;
-}
-
-void	grep_forks(t_philo *philo)
-{
-	int		right_fork;
-	int		left_fork;
-
-	should_philo_die(philo);
-	if (philo->is_dead)
-		return ;
-	decide_fork_priority(philo, &right_fork, &left_fork);
-	pthread_mutex_lock(&(philo->info->forks[right_fork]));
-	pthread_mutex_lock(&(philo->info->forks[left_fork]));
-}
-
-void	leave_forks(t_philo *philo)
-{
-	int		right_fork;
-	int		left_fork;
-
-	decide_fork_priority(philo, &right_fork, &left_fork);
-	pthread_mutex_unlock(&(philo->info->forks[left_fork]));
-	pthread_mutex_unlock(&(philo->info->forks[right_fork]));
-}
-
-void	eat_spaghetti(t_philo *philo)
-{
-	struct timeval	duration;
-
-	should_philo_die(philo);
-	if (philo->is_dead)
-	{
-		leave_forks(philo);
-		return ;
-	}
-	gettimeofday(&duration, NULL);
-	gettimeofday(philo->last_meal, NULL);
-	print_statement(philo, "is eating");
-	usleep((philo->args->time_to_eat * 900));
-	while (1)
-	{
-		if ((int)make_timestamp(&duration) >= philo->args->time_to_eat)
-			break ;
-	}
-}
-
-void	sleep_after_diner(t_philo	*philo)
-{
-	struct timeval	duration;
-
-	should_philo_die(philo);
-	if (philo->is_dead)
-		return ;
-	gettimeofday(&duration, NULL);
-	print_statement(philo, "is sleeping");
-	usleep(philo->args->time_to_sleep * 900);
-	while (1)
-	{
-		if ((int)make_timestamp(&duration) >= philo->args->time_to_sleep)
-			break ;
-	}
+	return (philo->is_dead);
 }
 
 void	print_statement(t_philo *philo, char *s)
@@ -132,16 +72,12 @@ void	*philos_simulation(void *philo)
 	the_philo = (t_philo *)philo;
 	while (!(the_philo->is_dead))
 	{
-		should_philo_die(the_philo);
-		if (the_philo->is_dead)
+		if (grep_forks(the_philo))
 			break ;
-		grep_forks(the_philo);
-		if (the_philo->is_dead)
+		if (eat_spaghetti(the_philo))
 			break ;
-		eat_spaghetti(the_philo);
 		leave_forks(the_philo);
-		sleep_after_diner(the_philo);
-		if (the_philo->is_dead)
+		if (sleep_after_diner(the_philo))
 			break ;
 		print_statement(the_philo, "is thinking");
 	}
