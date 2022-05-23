@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/23 13:14:37 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/23 19:59:56 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print;
 	pthread_mutex_t	*death;
+	pthread_mutex_t	*start_line;
 	// pthread_mutex_t *full;
 	// 배부른 철학자 감지를 위한 뮤텍스;
 	int				death_flag;
@@ -67,5 +68,8 @@ int		eat_spaghetti(t_philo *philo);
 int		sleep_after_diner(t_philo *philo);
 void	print_statement(t_philo *philo, char *s);
 int		ft_atoi(char *s);
+
+// screening
+int	check_death_flag(t_info *info);
 
 #endif
