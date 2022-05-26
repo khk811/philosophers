@@ -36,6 +36,7 @@ static pthread_mutex_t	*fork_init(t_args *args)
 t_info	*t_info_init(t_args *args)
 {
 	t_info	*new;
+	int		i;
 
 	new = malloc(sizeof(t_info));
 	if (!new)
@@ -61,6 +62,13 @@ t_info	*t_info_init(t_args *args)
 	pthread_mutex_init(new->full, NULL);
 	new->death_flag = 0;
 	new->hungry_philo = args->philo_num;
+	new->fork_arr = malloc(sizeof(int) * args->philo_num);
+	i = 0;
+	while (i < args->philo_num)
+	{
+		(new->fork_arr)[i] = 1;
+		i++;
+	}
 	return (new);
 }
 

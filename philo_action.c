@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 11:19:23 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 13:45:32 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	grep_forks(t_philo *philo)
 	{
 		decide_fork_priority(philo, &right_fork, &left_fork);
 		pthread_mutex_lock(&(philo->info->forks[right_fork]));
+		philo->info->fork_arr[right_fork] = 0;
 		pthread_mutex_lock(&(philo->info->forks[left_fork]));
+		philo->info->fork_arr[left_fork] = 0;
+		print_statement(philo, "has taken a fork");
 	}
 	return (ret);
 }
@@ -34,7 +37,9 @@ void	leave_forks(t_philo *philo)
 	int		left_fork;
 
 	decide_fork_priority(philo, &right_fork, &left_fork);
+	philo->info->fork_arr[left_fork] = 1;
 	pthread_mutex_unlock(&(philo->info->forks[left_fork]));
+	philo->info->fork_arr[right_fork] = 1;
 	pthread_mutex_unlock(&(philo->info->forks[right_fork]));
 }
 

@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 11:47:31 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 13:31:04 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_info
 	int				death_flag;
 	// death_flag -> 1 -->
 	// int fork_something arr idk;
+	int	*fork_arr;
 }	t_info;
 
 typedef struct s_philo
