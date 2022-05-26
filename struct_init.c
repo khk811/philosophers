@@ -57,10 +57,10 @@ t_info	*t_info_init(t_args *args)
 	pthread_mutex_init(new->start_line, NULL);
 	new->death = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(new->death, NULL);
-	// new->full = malloc(sizeof(pthread_mutex_t));
-	// pthread_mutex_init(new->full, NULL);
+	new->full = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(new->full, NULL);
 	new->death_flag = 0;
-	new->full_flag = 0;
+	new->hungry_philo = args->philo_num;
 	return (new);
 }
 

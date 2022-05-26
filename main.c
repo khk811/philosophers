@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 11:19:33 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 12:04:30 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ int	should_philo_die(t_philo *philo)
 	return (philo->is_dead);
 }
 
+int	is_philo_full(t_philo *philo)
+{
+	if (philo->eat_count == 0)
+	{
+		pthread_mutex_lock(philo->info->full);
+		(philo->info->hungry_philo)--;
+		pthread_mutex_unlock(philo->info->full);
+		return (1);
+	}
+	return (0);
+}
+
 void	print_statement(t_philo *philo, char *s)
 {
 	pthread_mutex_lock(philo->info->print);
@@ -79,21 +91,23 @@ void	*philos_simulation(void *philo)
 	pthread_mutex_unlock(the_philo->info->start_line);
 	if (the_philo->id % 2 == 1)
 		usleep(1500);
-	while (!check_death_flag(the_philo->info) && (the_philo->eat_count))
+	while (!check_death_flag(the_philo->info))
 	{
 		if (grep_forks(the_philo))
 			break ;
 		if (eat_spaghetti(the_philo))
 			break ;
 		leave_forks(the_philo);
+		if (is_philo_full(the_philo))
+			break ;
 		if (sleep_after_diner(the_philo))
 			break ;
 		if (!check_death_flag(the_philo->info))
 			print_statement(the_philo, "is thinking");
 		usleep(200);
 	}
-	if (!the_philo->eat_count)
-		printf("philo [%d] is full\n", the_philo->id);
+	// if (!the_philo->eat_count)
+	// 	printf("philo [%d] is full\n", the_philo->id);
 	return (NULL);
 }
 
@@ -129,13 +143,18 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (info->death_flag == 0)
 	{
-		if (should_philo_die(&philos[i]) && !(info->full_flag))
+		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
 		{
 			pthread_mutex_lock(info->death);
 			info->death_flag = 1;
 			pthread_mutex_unlock(info->death);
 			print_statement(&philos[i], "died");
 			// printf("%zu spand", make_timestamp(philos[i].last_meal));
+			break ;
+		}
+		if (info->hungry_philo == 0)
+		{
+			printf("Philos are full. end of program\n");
 			break ;
 		}
 		i++;
