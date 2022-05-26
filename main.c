@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/23 21:41:06 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 11:16:58 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,6 @@ void	decide_fork_priority(t_philo *philo, int *right, int *left)
 	num = philo->args->philo_num;
 	*right = id;
 	*left = ((num - 1) + id) % num;
-	/*
-	if (id % 2 == 0)
-	{
-		*right = ((num - 1) + id) % num;
-		*left = id;
-	}
-	else
-	{
-		*right = id;
-		*left = ((num - 1) + id) % num;
-	}
-	*/
 }
 
 size_t	get_milisecond(int sec, int usec)
@@ -86,16 +74,12 @@ void	*philos_simulation(void *philo)
 {
 	t_philo	*the_philo;
 
-	// ??? lock start line;
-	// unlock start line;
-	// id % 2 == 1
-	// usleep (1000 ~ 2000);
 	the_philo = (t_philo *)philo;
 	pthread_mutex_lock(the_philo->info->start_line);
 	pthread_mutex_unlock(the_philo->info->start_line);
 	if (the_philo->id % 2 == 1)
 		usleep(1500);
-	while (!check_death_flag(the_philo->info))
+	while (!check_death_flag(the_philo->info) && (the_philo->eat_count))
 	{
 		if (grep_forks(the_philo))
 			break ;
@@ -108,6 +92,8 @@ void	*philos_simulation(void *philo)
 			print_statement(the_philo, "is thinking");
 		usleep(200);
 	}
+	if (!the_philo->eat_count)
+		printf("philo [%d] is full\n", the_philo->id);
 	return (NULL);
 }
 
@@ -143,7 +129,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (info->death_flag == 0)
 	{
-		if (should_philo_die(&philos[i]))
+		if (should_philo_die(&philos[i]) && !(info->full_flag))
 		{
 			pthread_mutex_lock(info->death);
 			info->death_flag = 1;
@@ -162,5 +148,6 @@ int	main(int argc, char **argv)
 		pthread_join(philos[i].philo, NULL);
 		i++;
 	}
+	system("leaks philo");
 	return (0);
 }

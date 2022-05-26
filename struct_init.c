@@ -11,7 +11,7 @@ t_args	*t_args_init(void)
 	new->time_to_die = 0;
 	new->time_to_eat = 0;
 	new->time_to_sleep = 0;
-	new->num_of_must_eat = 0;
+	new->num_of_must_eat = -1;
 	return (new);
 }
 
@@ -57,7 +57,10 @@ t_info	*t_info_init(t_args *args)
 	pthread_mutex_init(new->start_line, NULL);
 	new->death = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(new->death, NULL);
+	// new->full = malloc(sizeof(pthread_mutex_t));
+	// pthread_mutex_init(new->full, NULL);
 	new->death_flag = 0;
+	new->full_flag = 0;
 	return (new);
 }
 
@@ -73,7 +76,7 @@ t_philo	*philos_init(t_args *args, t_info *info)
 	while (i < args->philo_num)
 	{
 		(philos[i]).id = i;
-		(philos[i]).eat_count = 0;
+		(philos[i]).eat_count = args->num_of_must_eat;
 		(philos[i]).last_meal = malloc(sizeof(struct timeval));
 		gettimeofday(philos[i].last_meal, NULL);
 		(philos[i]).is_dead = 0;

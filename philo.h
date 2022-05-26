@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/23 19:59:56 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/24 11:52:06 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_args
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
-	int	num_of_must_eat;
+	size_t	num_of_must_eat;
 }	t_args;
 
 typedef struct s_info
@@ -38,6 +38,7 @@ typedef struct s_info
 	pthread_mutex_t	*start_line;
 	// pthread_mutex_t *full;
 	// 배부른 철학자 감지를 위한 뮤텍스;
+	int				full_flag;
 	int				death_flag;
 	// death_flag -> 1 -->
 	// int fork_something arr idk;
