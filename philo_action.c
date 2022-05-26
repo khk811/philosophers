@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 13:45:32 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 21:47:14 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	eat_spaghetti(t_philo *philo)
 				break ;
 			usleep(150);
 		}
+		leave_forks(philo);
 	}
 	return (ret);
 }
