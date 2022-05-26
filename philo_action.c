@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 11:16:52 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 11:19:23 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	eat_spaghetti(t_philo *philo)
 		{
 			if ((int)make_timestamp(&duration) >= philo->args->time_to_eat)
 				break ;
+			usleep(150);
 		}
 	}
 	return (ret);
@@ -83,6 +84,7 @@ int	sleep_after_diner(t_philo *philo)
 		{
 			if ((int)make_timestamp(&duration) >= philo->args->time_to_sleep)
 				break ;
+			usleep(150);
 		}
 	}
 	return (ret);
