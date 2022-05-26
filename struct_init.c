@@ -50,16 +50,10 @@ t_info	*t_info_init(t_args *args)
 	}
 	gettimeofday(new->start, NULL);
 	new->forks = fork_init(args);
-	new->print = malloc(sizeof(pthread_mutex_t));
-	if (!new->print)
-		return (NULL);
-	pthread_mutex_init(new->print, NULL);
-	new->start_line = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(new->start_line, NULL);
-	new->death = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(new->death, NULL);
-	new->full = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(new->full, NULL);
+	pthread_mutex_init(&(new->print), NULL);
+	pthread_mutex_init(&(new->start_line), NULL);
+	pthread_mutex_init(&(new->death), NULL);
+	pthread_mutex_init(&(new->full), NULL);
 	new->death_flag = 0;
 	new->hungry_philo = args->philo_num;
 	new->fork_arr = malloc(sizeof(int) * args->philo_num);

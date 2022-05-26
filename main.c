@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 13:44:56 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 17:04:19 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	is_philo_full(t_philo *philo)
 {
 	if (philo->eat_count == 0)
 	{
-		pthread_mutex_lock(philo->info->full);
+		pthread_mutex_lock(&(philo->info->full));
 		(philo->info->hungry_philo)--;
-		pthread_mutex_unlock(philo->info->full);
+		pthread_mutex_unlock(&(philo->info->full));
 		return (1);
 	}
 	return (0);
@@ -67,18 +67,18 @@ int	is_philo_full(t_philo *philo)
 
 void	print_statement(t_philo *philo, char *s)
 {
-	pthread_mutex_lock(philo->info->print);
+	pthread_mutex_lock(&(philo->info->print));
 	printf("%zu %d %s\n", make_timestamp(philo->info->start), philo->id, s);
-	pthread_mutex_unlock(philo->info->print);
+	pthread_mutex_unlock(&(philo->info->print));
 }
 
 int	check_death_flag(t_info *info)
 {
 	int	ret;
 
-	pthread_mutex_lock(info->death);
+	pthread_mutex_lock(&(info->death));
 	ret = info->death_flag;
-	pthread_mutex_unlock(info->death);
+	pthread_mutex_unlock(&(info->death));
 	return (ret);
 }
 
@@ -87,8 +87,8 @@ void	*philos_simulation(void *philo)
 	t_philo	*the_philo;
 
 	the_philo = (t_philo *)philo;
-	pthread_mutex_lock(the_philo->info->start_line);
-	pthread_mutex_unlock(the_philo->info->start_line);
+	pthread_mutex_lock(&(the_philo->info->start_line));
+	pthread_mutex_unlock(&(the_philo->info->start_line));
 	if (the_philo->id % 2 == 1)
 		usleep(1500);
 	while (!check_death_flag(the_philo->info))
@@ -136,18 +136,19 @@ int	main(int argc, char **argv)
 	info = t_info_init(args);
 	printf("<< total philo_num : %d>>\n\n", args->philo_num);
 	// lock start line;
-	pthread_mutex_lock(info->start_line);
+	pthread_mutex_lock(&(info->start_line));
 	philos = philos_init(args, info);
 	// unlock start line;
-	pthread_mutex_unlock(info->start_line);
+	pthread_mutex_unlock(&(info->start_line));
 	i = 0;
 	while (info->death_flag == 0)
 	{
 		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
 		{
-			pthread_mutex_lock(info->death);
+			// if philo num == 1 | philo fork right == left (select)
+			pthread_mutex_lock(&(info->death));
 			info->death_flag = 1;
-			pthread_mutex_unlock(info->death);
+			pthread_mutex_unlock(&(info->death));
 			print_statement(&philos[i], "died");
 			// printf("%zu spand", make_timestamp(philos[i].last_meal));
 			break ;

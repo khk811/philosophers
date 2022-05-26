@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 13:31:04 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/26 14:11:56 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,35 @@
 
 typedef struct s_args
 {
-	int	philo_num;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
+	int		philo_num;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
 	size_t	num_of_must_eat;
 }	t_args;
 
 typedef struct s_info
 {
-	// general infos;
 	struct timeval	*start;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*death;
-	pthread_mutex_t	*start_line;
-	pthread_mutex_t *full;
-	// 배부른 철학자 감지를 위한 뮤텍스;
-	int				hungry_philo;
+	int				*fork_arr;
+	pthread_mutex_t	print;
+	pthread_mutex_t	death;
 	int				death_flag;
-	// death_flag -> 1 -->
-	// int fork_something arr idk;
-	int	*fork_arr;
+	pthread_mutex_t	start_line;
+	pthread_mutex_t full;
+	int				hungry_philo;
 }	t_info;
 
 typedef struct s_philo
 {
-	int	id;
-	int	eat_count;
+	int				id;
+	int				eat_count;
 	struct timeval	*last_meal;
-	int	is_dead;
-	t_info	*info;
-	t_args	*args;
-	pthread_t	philo;
+	int				is_dead;
+	t_info			*info;
+	t_args			*args;
+	pthread_t		philo;
 }	t_philo;
 
 t_args	*t_args_init(void);
