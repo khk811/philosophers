@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/27 12:09:25 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/27 19:20:05 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <signal.h>
+
+
 
 int	ft_atoi(char *s);
 
