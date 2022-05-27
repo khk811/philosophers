@@ -1,26 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/27 12:09:25 by hyunkkim         ###   ########seoul.kr  */
+/*   Created: 2022/05/27 12:08:28 by hyunkkim          #+#    #+#             */
+/*   Updated: 2022/05/27 12:08:54 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_BONUS_H
-# define PHILO_BONUS_H
+#include "philo_bonus.h"
 
-# include <stdio.h>
-# include <unistd.h>
-# include <pthread.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <semaphore.h>
-# include <signal.h>
+int	ft_isdigit(char c)
+{
+	if (c >= '0' || c <= '9')
+		return (1);
+	return (0);
+}
 
-int	ft_atoi(char *s);
+int	ft_atoi(char *s)
+{
+	int	num;
+	int	sign;
 
-#endif
+	num = 0;
+	sign = 1;
+	if (*s == '+' || *s == '-')
+	{
+		if (*s == '-')
+			sign *= -1;
+		s++;
+	}
+	while(*s && ft_isdigit(*s))
+	{
+		num *= 10;
+		num += (*s) - '0';
+		s++;
+	}
+	num *= sign;
+	return (num);
+}
