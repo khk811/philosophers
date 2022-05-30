@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/27 21:05:59 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 13:52:55 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*check_death(void *arg)
 		if (i == 5)
 		{
 			printf("EXIT\n");
-			exit(10);
+			exit(42);
 		}
 	}
 	return (NULL);
@@ -77,17 +77,21 @@ int	main(int argc, char **argv)
 	}
 	sleep(15);
 	status = 42;
+	pid_t	end_pid;
+	i = 0;
 	while (i < philo_num)
 	{
-		printf("$\n");
-		waitpid(philos[i], &status, WNOHANG);
-		usleep(200);
-		printf("* %d\n", i);
+		printf("* ");
+		end_pid = waitpid(philos[i], &status, WNOHANG);
+		if (WEXITSTATUS(status) == 42)
+		{
+			printf("PID %d Is Done >> EXIT STATUS : %d\n", end_pid, WEXITSTATUS(status));
+			break ;
+		}
+		usleep(500);
 		i++;
 		if (i == philo_num)
 			i = 0;
 	}
-	printf("the status wexitstatus>> %d\n", WEXITSTATUS(status));
-	printf("the status wifexited>> %d\n", WIFEXITED(status));
 	return (0);
 }
