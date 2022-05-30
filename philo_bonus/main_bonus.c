@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 21:57:15 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 21:58:58 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	philo_simulation(t_philo philo)
 	pthread_create(&moni, NULL, check_death, &philo);
 	while (1)
 	{
+		// 각각의 단계에서 죽어야 하는지를 확인해야 나중에 출력을 안함.
+		// 그 처리 할것!
 		sem_wait(philo.forks);
 		sem_wait(philo.forks);
 		printf("%zu %d has taken a fork\n", make_timestamp(philo.start), philo.id);
