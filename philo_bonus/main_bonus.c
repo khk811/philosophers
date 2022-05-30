@@ -6,17 +6,18 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 13:52:55 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 20:31:12 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	*check_death(void *arg)
+void	*check_death(void *void_philo)
 {
+	t_philo	philo;
 	int		i;
 
-	arg = NULL;
+	philo = *((t_philo *)(void_philo));
 	i = 0;
 	while (1)
 	{
@@ -24,73 +25,92 @@ void	*check_death(void *arg)
 		sleep(2);
 		if (i == 5)
 		{
-			printf("EXIT\n");
+			printf("%d EXIT\n", philo.id);
 			exit(42);
 		}
 	}
 	return (NULL);
 }
 
-void	philo_simulation(pid_t philo)
+void	philo_simulation(t_philo philo)
 {
 	pthread_t	moni;
 
-	printf("philo pid >> %d\n", philo);
-	pthread_create(&moni, NULL, check_death, NULL);
+	pthread_create(&moni, NULL, check_death, &philo);
 	while (1)
 	{
-		printf("eat\n");
+		printf("%d eat\n", philo.id);
 		sleep(1);
-		printf("sleep\n");
+		printf("%d sleep\n", philo.id);
 		sleep(1);
-		printf("think\n");
+		printf("%d think\n", philo.id);
 		sleep(1);
-		printf("repeat\n");
+		printf("%d repeat\n", philo.id);
 		sleep(1);
+	}
+}
+
+void	parse_input(t_philo *philo, int argc, char **argv)
+{
+
+	if (argc == 5 || argc == 6)
+	{
+		philo->philo_num = ft_atoi(argv[1]);
+		philo->time_to_die = ft_atoi(argv[2]);
+		philo->time_to_eat = ft_atoi(argv[3]);
+		philo->time_to_sleep = ft_atoi(argv[4]);
+		if (argc == 6)
+			philo->num_of_must_eat = ft_atoi(argv[5]);
+		else
+			philo->num_of_must_eat = -1;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	int		philo_num;
-	pid_t	*philos;
+	t_philo	philo;
+	pid_t	*philos_pid;
 	int		i;
 	int		status;
 
-	if (argc != 2)
-		return (0);
-	philo_num = ft_atoi(argv[1]);
-	philos = malloc(sizeof(pid_t) * philo_num);
+	parse_input(&philo, argc, argv);
+	sem_unlink("forks");
+	philo.forks = sem_open("forks", O_CREAT, 0644, (unsigned int)(philo.philo_num));
+	printf("fork >> %p\n", philo.forks);
+	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
+	printf("philo num : %d\n", philo.philo_num);
 	i = 0;
-	while (i < philo_num)
+	while (i < philo.philo_num)
 	{
-		philos[i] = fork();
-		if (philos[i] < 0)
+		philos_pid[i] = fork();
+		if (philos_pid[i] < 0)
 		{
-			free(philos);
-			philos = NULL;
+			free(philos_pid);
+			philos_pid = NULL;
 			return (-1);
 		}
-		else if (philos[i] == 0)
-			philo_simulation(philos[i]);
+		else if (philos_pid[i] == 0)
+		{
+			philo.id = i;
+			gettimeofday(&philo.last_meal, NULL);
+			philo_simulation(philo);
+		}
 		i++;
 	}
 	sleep(15);
 	status = 42;
-	pid_t	end_pid;
 	i = 0;
-	while (i < philo_num)
+	while (i < philo.philo_num)
 	{
-		printf("* ");
-		end_pid = waitpid(philos[i], &status, WNOHANG);
-		if (WEXITSTATUS(status) == 42)
+		waitpid(philos_pid[i], &status, WNOHANG);
+		if (WEXITSTATUS(status) == 42 && i == philo.philo_num - 1)
 		{
-			printf("PID %d Is Done >> EXIT STATUS : %d\n", end_pid, WEXITSTATUS(status));
+			printf("EXIT STATUS : %d\n", WEXITSTATUS(status));
 			break ;
 		}
 		usleep(500);
 		i++;
-		if (i == philo_num)
+		if (i == philo.philo_num)
 			i = 0;
 	}
 	return (0);

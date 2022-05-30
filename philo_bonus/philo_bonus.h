@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/27 19:20:05 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 19:52:20 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,17 @@
 # include <semaphore.h>
 # include <signal.h>
 
-
+typedef struct s_philo
+{
+	int		philo_num;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	size_t	num_of_must_eat;
+	sem_t	*forks;
+	int		id;
+	struct timeval	last_meal;
+}	t_philo;
 
 int	ft_atoi(char *s);
 
