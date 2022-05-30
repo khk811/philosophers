@@ -6,11 +6,28 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 20:31:12 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 21:23:19 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+size_t	get_milisecond(int sec, int usec)
+{
+	return ((sec * 1000) + (usec / 1000));
+}
+
+size_t	make_timestamp(struct timeval *start)
+{
+	struct timeval	curr;
+	size_t			curr_time;
+	size_t			start_time;
+
+	gettimeofday(&curr, NULL);
+	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
+	start_time = get_milisecond(start->tv_sec, start->tv_usec);
+	return (curr_time - start_time);
+}
 
 void	*check_death(void *void_philo)
 {
@@ -21,13 +38,12 @@ void	*check_death(void *void_philo)
 	i = 0;
 	while (1)
 	{
-		i++;
-		sleep(2);
-		if (i == 5)
+		if ((int)make_timestamp(philo.last_meal) >= philo.time_to_die)
 		{
-			printf("%d EXIT\n", philo.id);
+			printf("%zu %d philo died\n", make_timestamp(philo.start), philo.id);
 			exit(42);
 		}
+		usleep(150);
 	}
 	return (NULL);
 }
@@ -39,14 +55,13 @@ void	philo_simulation(t_philo philo)
 	pthread_create(&moni, NULL, check_death, &philo);
 	while (1)
 	{
-		printf("%d eat\n", philo.id);
-		sleep(1);
-		printf("%d sleep\n", philo.id);
-		sleep(1);
-		printf("%d think\n", philo.id);
-		sleep(1);
-		printf("%d repeat\n", philo.id);
-		sleep(1);
+		printf("%zu %d is eating\n", make_timestamp(philo.start), philo.id);
+		gettimeofday(philo.last_meal, NULL);
+		usleep(philo.time_to_eat * 1000);
+		printf("%zu %d is sleeping\n", make_timestamp(philo.start), philo.id);
+		usleep(philo.time_to_sleep * 1000);
+		printf("%zu %d is thinking\n", make_timestamp(philo.start), philo.id);
+		usleep(150);
 	}
 }
 
@@ -77,6 +92,8 @@ int	main(int argc, char **argv)
 	sem_unlink("forks");
 	philo.forks = sem_open("forks", O_CREAT, 0644, (unsigned int)(philo.philo_num));
 	printf("fork >> %p\n", philo.forks);
+	philo.start = malloc(sizeof(struct timeval));
+	philo.last_meal = malloc(sizeof(struct timeval));
 	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
 	printf("philo num : %d\n", philo.philo_num);
 	i = 0;
@@ -92,7 +109,8 @@ int	main(int argc, char **argv)
 		else if (philos_pid[i] == 0)
 		{
 			philo.id = i;
-			gettimeofday(&philo.last_meal, NULL);
+			gettimeofday(philo.start, NULL);
+			gettimeofday(philo.last_meal, NULL);
 			philo_simulation(philo);
 		}
 		i++;
@@ -103,7 +121,7 @@ int	main(int argc, char **argv)
 	while (i < philo.philo_num)
 	{
 		waitpid(philos_pid[i], &status, WNOHANG);
-		if (WEXITSTATUS(status) == 42 && i == philo.philo_num - 1)
+		if ((WEXITSTATUS(status) == 42 || WEXITSTATUS(status) == 24) && i == philo.philo_num - 1)
 		{
 			printf("EXIT STATUS : %d\n", WEXITSTATUS(status));
 			break ;
