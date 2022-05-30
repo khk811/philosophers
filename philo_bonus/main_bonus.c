@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 21:45:27 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 21:57:15 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	*check_death(void *void_philo)
 	{
 		if ((int)make_timestamp(philo.last_meal) >= philo.time_to_die)
 		{
-			printf("%zu %d philo died\n", make_timestamp(philo.start), philo.id);
+			printf("%zu %d died\n", make_timestamp(philo.start), philo.id);
 			exit(42);
 		}
 		usleep(150);
@@ -97,6 +97,7 @@ int	main(int argc, char **argv)
 	t_philo	philo;
 	pid_t	*philos_pid;
 	int		i;
+	int		j;
 	int		status;
 
 	parse_input(&philo, argc, argv);
@@ -126,15 +127,27 @@ int	main(int argc, char **argv)
 		}
 		i++;
 	}
-	sleep(15);
+	// sleep(15);
 	status = 42;
 	i = 0;
 	while (i < philo.philo_num)
 	{
 		waitpid(philos_pid[i], &status, WNOHANG);
-		if ((WEXITSTATUS(status) == 42 || WEXITSTATUS(status) == 24) && i == philo.philo_num - 1)
+		if (WEXITSTATUS(status) == 42)
 		{
-			printf("EXIT STATUS : %d\n", WEXITSTATUS(status));
+			j = 0;
+			while (j < philo.philo_num)
+			{
+				if (i != j)
+					kill(philos_pid[j], SIGKILL);
+				j++;
+			}
+			printf("send kill sig to all\n");
+			break ;
+		}
+		if (WEXITSTATUS(status) == 24 && i == philo.philo_num - 1)
+		{
+			printf("All philo ate well. end\n");
 			break ;
 		}
 		usleep(500);
