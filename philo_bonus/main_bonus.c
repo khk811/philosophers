@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 21:27:14 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 21:33:11 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	philo_simulation(t_philo philo)
 	{
 		sem_wait(philo.forks);
 		sem_wait(philo.forks);
+		printf("%zu %d has taken a fork\n", make_timestamp(philo.start), philo.id);
 		printf("%zu %d is eating\n", make_timestamp(philo.start), philo.id);
 		gettimeofday(philo.last_meal, NULL);
 		usleep(philo.time_to_eat * 1000);
