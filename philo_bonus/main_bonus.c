@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 21:33:11 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/30 21:45:27 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,14 @@ void	philo_simulation(t_philo philo)
 		printf("%zu %d is eating\n", make_timestamp(philo.start), philo.id);
 		gettimeofday(philo.last_meal, NULL);
 		usleep(philo.time_to_eat * 1000);
+		(philo.num_of_must_eat)--;
 		sem_post(philo.forks);
 		sem_post(philo.forks);
+		if (philo.num_of_must_eat == 0)
+		{
+			printf("%d is full\n", philo.id);
+			exit(24);
+		}
 		printf("%zu %d is sleeping\n", make_timestamp(philo.start), philo.id);
 		usleep(philo.time_to_sleep * 1000);
 		printf("%zu %d is thinking\n", make_timestamp(philo.start), philo.id);
