@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 21:12:30 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/31 11:44:29 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@ typedef struct s_philo
 	struct timeval	*last_meal;
 }	t_philo;
 
-int	ft_atoi(char *s);
+int		ft_atoi(char *s);
+size_t	make_timestamp(struct timeval *start);
+void	grab_fork(t_philo *philo);
+void	leave_fork(t_philo *philo);
+void	eat_spaghetti(t_philo *philo);
+void	sleep_after_diner(t_philo *philo);
 
 #endif

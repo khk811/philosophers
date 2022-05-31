@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/30 21:58:58 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/31 11:50:43 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,16 @@ void	philo_simulation(t_philo philo)
 	pthread_create(&moni, NULL, check_death, &philo);
 	while (1)
 	{
-		// 각각의 단계에서 죽어야 하는지를 확인해야 나중에 출력을 안함.
-		// 그 처리 할것!
-		sem_wait(philo.forks);
-		sem_wait(philo.forks);
-		printf("%zu %d has taken a fork\n", make_timestamp(philo.start), philo.id);
-		printf("%zu %d is eating\n", make_timestamp(philo.start), philo.id);
-		gettimeofday(philo.last_meal, NULL);
-		usleep(philo.time_to_eat * 1000);
-		(philo.num_of_must_eat)--;
-		sem_post(philo.forks);
-		sem_post(philo.forks);
+		grab_fork(&philo);
+		eat_spaghetti(&philo);
 		if (philo.num_of_must_eat == 0)
 		{
 			printf("%d is full\n", philo.id);
 			exit(24);
 		}
-		printf("%zu %d is sleeping\n", make_timestamp(philo.start), philo.id);
-		usleep(philo.time_to_sleep * 1000);
-		printf("%zu %d is thinking\n", make_timestamp(philo.start), philo.id);
+		sleep_after_diner(&philo);
+		if ((int)make_timestamp(philo.last_meal) < philo.time_to_die)
+			printf("%zu %d is thinking\n", make_timestamp(philo.start), philo.id);
 		usleep(150);
 	}
 }
@@ -152,7 +143,7 @@ int	main(int argc, char **argv)
 			printf("All philo ate well. end\n");
 			break ;
 		}
-		usleep(500);
+		usleep(150);
 		i++;
 		if (i == philo.philo_num)
 			i = 0;

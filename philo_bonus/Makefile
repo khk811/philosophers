@@ -6,7 +6,7 @@
 #    By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/27 11:57:28 by hyunkkim          #+#    #+#              #
-#    Updated: 2022/05/27 12:19:11 by hyunkkim         ###   ########seoul.kr   #
+#    Updated: 2022/05/31 11:12:45 by hyunkkim         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 RM=rm -f
 SRC=main_bonus.c \
-	utils_bonus.c
+	utils_bonus.c \
+	philo_action_bonus.c
 OBJ=$(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
