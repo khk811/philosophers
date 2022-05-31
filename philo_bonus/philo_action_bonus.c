@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:12:09 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/31 11:42:17 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/31 12:03:16 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	grab_fork(t_philo *philo)
 	{
 		sem_wait(philo->forks);
 		sem_wait(philo->forks);
-		printf("%zu %d has taken a fork\n", make_timestamp(philo->start), philo->id);
+		print_statement(philo, "has taken a fork");
 	}
 }
 
@@ -40,7 +40,7 @@ void	eat_spaghetti(t_philo *philo)
 		gettimeofday(philo->last_meal, NULL);
 		// if philo isn't dead;
 		if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
-			printf("%zu %d is eating\n", make_timestamp(philo->start), philo->id);
+			print_statement(philo, "is eating");
 		(philo->num_of_must_eat)--;
 		usleep(philo->time_to_eat * 900);
 		while (1)
@@ -63,7 +63,7 @@ void	sleep_after_diner(t_philo *philo)
 		gettimeofday(&duration, NULL);
 		// if philo isn't dead
 		if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
-			printf("%zu %d is sleeping\n", make_timestamp(philo->start), philo->id);
+			print_statement(philo, "is sleeping");
 		usleep(philo->time_to_sleep * 900);
 		while (1)
 		{

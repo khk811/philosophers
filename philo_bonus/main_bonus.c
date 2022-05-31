@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/31 11:50:43 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/31 12:11:01 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ size_t	make_timestamp(struct timeval *start)
 	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
 	start_time = get_milisecond(start->tv_sec, start->tv_usec);
 	return (curr_time - start_time);
+}
+
+void	print_statement(t_philo	*philo, char *s)
+{
+	sem_wait(philo->print);
+	if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
+		printf("%zu %d %s\n", make_timestamp(philo->start), philo->id, s);
+	sem_post(philo->print);
 }
 
 void	*check_death(void *void_philo)
@@ -59,12 +67,11 @@ void	philo_simulation(t_philo philo)
 		eat_spaghetti(&philo);
 		if (philo.num_of_must_eat == 0)
 		{
-			printf("%d is full\n", philo.id);
 			exit(24);
 		}
 		sleep_after_diner(&philo);
 		if ((int)make_timestamp(philo.last_meal) < philo.time_to_die)
-			printf("%zu %d is thinking\n", make_timestamp(philo.start), philo.id);
+			print_statement(&philo, "is thinking");
 		usleep(150);
 	}
 }
@@ -95,10 +102,14 @@ int	main(int argc, char **argv)
 
 	parse_input(&philo, argc, argv);
 	sem_unlink("forks");
+	sem_unlink("print");
 	philo.forks = sem_open("forks", O_CREAT, 0644, (unsigned int)(philo.philo_num));
+	philo.print = sem_open("print", O_CREAT, 0644, 1);
 	printf("fork >> %p\n", philo.forks);
 	philo.start = malloc(sizeof(struct timeval));
 	philo.last_meal = malloc(sizeof(struct timeval));
+	gettimeofday(philo.start, NULL);
+	gettimeofday(philo.last_meal, NULL);
 	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
 	printf("philo num : %d\n", philo.philo_num);
 	i = 0;
@@ -114,8 +125,6 @@ int	main(int argc, char **argv)
 		else if (philos_pid[i] == 0)
 		{
 			philo.id = i;
-			gettimeofday(philo.start, NULL);
-			gettimeofday(philo.last_meal, NULL);
 			philo_simulation(philo);
 		}
 		i++;
