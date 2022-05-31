@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/31 12:11:01 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/31 16:55:47 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	main(int argc, char **argv)
 	int		i;
 	int		j;
 	int		status;
+	int		full_philo;
 
 	parse_input(&philo, argc, argv);
 	sem_unlink("forks");
@@ -129,9 +130,9 @@ int	main(int argc, char **argv)
 		}
 		i++;
 	}
-	// sleep(15);
 	status = 42;
 	i = 0;
+	full_philo = 0;
 	while (i < philo.philo_num)
 	{
 		waitpid(philos_pid[i], &status, WNOHANG);
@@ -147,9 +148,15 @@ int	main(int argc, char **argv)
 			printf("send kill sig to all\n");
 			break ;
 		}
-		if (WEXITSTATUS(status) == 24 && i == philo.philo_num - 1)
+		if (WEXITSTATUS(status) == 24)
 		{
-			printf("All philo ate well. end\n");
+			j = 0;
+			while (j < philo.philo_num)
+			{
+				waitpid(-1, &status, 0);
+				j++;
+			}
+			printf("All philo ate well. The end\n");
 			break ;
 		}
 		usleep(150);
