@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 20:04:41 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 20:40:17 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ int	main(int argc, char **argv)
 	// args = t_args_init();
 	if (!parse_input(&args, argc, argv))
 		return (1);
-	t_info_init(&info, &args);
+	if (!t_info_init(&info, &args))
+		return (1);
 	printf("<< total philo_num : %d>>\n\n", args.philo_num);
 	// lock start line;
 	pthread_mutex_lock(&(info.start_line));

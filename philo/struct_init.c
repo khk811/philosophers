@@ -1,65 +1,63 @@
 #include "philo.h"
-/*
-t_args	*t_args_init(void)
-{
-	t_args	*new;
 
-	new = malloc(sizeof(t_args));
-	if (!new)
-		return (NULL);
-	new->philo_num = 0;
-	new->time_to_die = 0;
-	new->time_to_eat = 0;
-	new->time_to_sleep = 0;
-	new->num_of_must_eat = -1;
-	return (new);
+int	free_t_info(t_info *info)
+{
+	if (info->start)
+		free(info->start);
+	if (info->forks)
+		free(info->forks);
+	if (info->fork_arr)
+		free(info->fork_arr);
+	return (0);
 }
-*/
+
 t_info	*t_info_alloc(t_info *info, t_args *args)
 {
-	// t_info	*new;
-
-	// new = malloc(sizeof(t_info));
-	// if (!new)
-	// 	return (NULL);
 	info->start = malloc(sizeof(struct timeval));
 	info->forks = malloc(sizeof(pthread_mutex_t) * args->philo_num);
 	info->fork_arr = malloc(sizeof(int) * args->philo_num);
 	if (!info->start || !info->forks || !info->fork_arr)
-	{
-		if (info->start)
-			free(info->start);
-		if (info->forks)
-			free(info->forks);
-		if (info->fork_arr)
-			free(info->fork_arr);
 		return (NULL);
-	}
 	return (info);
 }
 
-void	t_info_init(t_info *info, t_args *args)
+int	t_info_mutex_init(t_info *info, t_args *args)
+{
+	int	i;
+
+	i = 0;
+	while (i < args->philo_num)
+	{
+		if (pthread_mutex_init(&(info->forks[i++]), NULL) == -1)
+			return (0);
+	}
+	if (pthread_mutex_init(&(info->print), NULL) == -1)
+		return (0);
+	if (pthread_mutex_init(&(info->death), NULL) == -1)
+		return (0);
+	if (pthread_mutex_init(&(info->start_line), NULL) == -1)
+		return (0);
+	if (pthread_mutex_init(&(info->full), NULL) == -1)
+		return (0);
+	return (1);
+}
+
+int	t_info_init(t_info *info, t_args *args)
 {
 	int		i;
 
 	info = t_info_alloc(info, args);
 	if (!info)
-		return ;
+		return (0);
 	gettimeofday(info->start, NULL);
-	// new->forks = fork_init(args);
-	i = 0;
-	while (i < args->philo_num)
-		pthread_mutex_init(&(info->forks[i++]), NULL);
+	if (!t_info_mutex_init(info, args))
+		return (free_t_info(info));
 	i = 0;
 	while (i < args->philo_num)
 		(info->fork_arr)[i++] = 1;
-	pthread_mutex_init(&(info->print), NULL);
-	pthread_mutex_init(&(info->death), NULL);
 	info->death_flag = 0;
-	pthread_mutex_init(&(info->start_line), NULL);
-	pthread_mutex_init(&(info->full), NULL);
 	info->hungry_philo = args->philo_num;
-	// return (info);
+	return (1);
 }
 
 t_philo	*t_philo_alloc(t_args *args)
