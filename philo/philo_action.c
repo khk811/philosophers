@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 21:47:14 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 15:04:06 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,23 @@ int	grep_forks(t_philo *philo)
 {
 	int		right_fork;
 	int		left_fork;
-	int		ret;
+	// int		ret;
 
-	ret = check_death_flag(philo->info);
-	if (!ret)
+	// ret = check_death_flag(philo->info);
+	decide_fork_priority(philo, &right_fork, &left_fork);
+	if (right_fork == left_fork)
+		return (0);
+	if (check_death_flag(philo->info))
+		return (0);
+	else
 	{
-		decide_fork_priority(philo, &right_fork, &left_fork);
 		pthread_mutex_lock(&(philo->info->forks[right_fork]));
 		philo->info->fork_arr[right_fork] = 0;
 		pthread_mutex_lock(&(philo->info->forks[left_fork]));
 		philo->info->fork_arr[left_fork] = 0;
 		print_statement(philo, "has taken a fork");
+		return (1);
 	}
-	return (ret);
 }
 
 void	leave_forks(t_philo *philo)
@@ -46,13 +50,16 @@ void	leave_forks(t_philo *philo)
 int	eat_spaghetti(t_philo *philo)
 {
 	struct timeval	duration;
-	int				ret;
+	// int				ret;
 
-	ret = check_death_flag(philo->info);
-	if (ret)
-		leave_forks(philo);
-	else
+	// ret = check_death_flag(philo->info);
+	// if (ret)
+	// 	leave_forks(philo);
+	// else
+	if (!check_death_flag(philo->info))
 	{
+		if (!grep_forks(philo))
+			return (check_death_flag(philo->info));
 		gettimeofday(&duration, NULL);
 		gettimeofday(philo->last_meal, NULL);
 		if (!check_death_flag(philo->info))
@@ -67,7 +74,7 @@ int	eat_spaghetti(t_philo *philo)
 		}
 		leave_forks(philo);
 	}
-	return (ret);
+	return (check_death_flag(philo->info));
 }
 
 int	sleep_after_diner(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/26 21:48:08 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 15:05:00 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	*philos_simulation(void *philo)
 		usleep(1500);
 	while (!check_death_flag(the_philo->info))
 	{
-		if (grep_forks(the_philo))
-			break ;
+		// if (grep_forks(the_philo))
+		// 	break ;
 		if (eat_spaghetti(the_philo))
 			break ;
 		// leave_forks(the_philo);
