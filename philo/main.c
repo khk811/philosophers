@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 15:05:00 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 15:51:17 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	should_philo_die(t_philo *philo)
 		pthread_mutex_unlock(&(philo->info->death));
 		usleep(100);
 		pthread_mutex_lock(&(philo->info->print));
-		printf("%zu %d died\n", make_timestamp(philo->last_meal), philo->id);
+		printf("%zu %d died\n", make_timestamp(philo->info->start), philo->id);
 		pthread_mutex_unlock(&(philo->info->print));
 	}
 	return (philo->info->death_flag);
