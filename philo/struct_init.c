@@ -1,5 +1,5 @@
 #include "philo.h"
-
+/*
 t_args	*t_args_init(void)
 {
 	t_args	*new;
@@ -14,57 +14,52 @@ t_args	*t_args_init(void)
 	new->num_of_must_eat = -1;
 	return (new);
 }
-
-t_info	*t_info_alloc(t_args *args)
+*/
+t_info	*t_info_alloc(t_info *info, t_args *args)
 {
-	t_info	*new;
+	// t_info	*new;
 
-	new = malloc(sizeof(t_info));
-	if (!new)
-		return (NULL);
-	new->start = malloc(sizeof(struct timeval));
-	new->forks = malloc(sizeof(pthread_mutex_t) * args->philo_num);
-	new->fork_arr = malloc(sizeof(int) * args->philo_num);
-	if (!new->start || !new->forks || !new->fork_arr)
+	// new = malloc(sizeof(t_info));
+	// if (!new)
+	// 	return (NULL);
+	info->start = malloc(sizeof(struct timeval));
+	info->forks = malloc(sizeof(pthread_mutex_t) * args->philo_num);
+	info->fork_arr = malloc(sizeof(int) * args->philo_num);
+	if (!info->start || !info->forks || !info->fork_arr)
 	{
-		if (new->start)
-			free(new->start);
-		if (new->forks)
-			free(new->forks);
-		if (new->fork_arr)
-			free(new->fork_arr);
-		new->start = NULL;
-		new->forks = NULL;
-		new->fork_arr = NULL;
-		free(new);
-		new = NULL;
+		if (info->start)
+			free(info->start);
+		if (info->forks)
+			free(info->forks);
+		if (info->fork_arr)
+			free(info->fork_arr);
+		return (NULL);
 	}
-	return (new);
+	return (info);
 }
 
-t_info	*t_info_init(t_args *args)
+void	t_info_init(t_info *info, t_args *args)
 {
-	t_info	*new;
 	int		i;
 
-	new = t_info_alloc(args);
-	if (!new)
-		return (NULL);
-	gettimeofday(new->start, NULL);
+	info = t_info_alloc(info, args);
+	if (!info)
+		return ;
+	gettimeofday(info->start, NULL);
 	// new->forks = fork_init(args);
 	i = 0;
 	while (i < args->philo_num)
-		pthread_mutex_init(&(new->forks[i++]), NULL);
+		pthread_mutex_init(&(info->forks[i++]), NULL);
 	i = 0;
 	while (i < args->philo_num)
-		(new->fork_arr)[i++] = 1;
-	pthread_mutex_init(&(new->print), NULL);
-	pthread_mutex_init(&(new->death), NULL);
-	new->death_flag = 0;
-	pthread_mutex_init(&(new->start_line), NULL);
-	pthread_mutex_init(&(new->full), NULL);
-	new->hungry_philo = args->philo_num;
-	return (new);
+		(info->fork_arr)[i++] = 1;
+	pthread_mutex_init(&(info->print), NULL);
+	pthread_mutex_init(&(info->death), NULL);
+	info->death_flag = 0;
+	pthread_mutex_init(&(info->start_line), NULL);
+	pthread_mutex_init(&(info->full), NULL);
+	info->hungry_philo = args->philo_num;
+	// return (info);
 }
 
 t_philo	*t_philo_alloc(t_args *args)

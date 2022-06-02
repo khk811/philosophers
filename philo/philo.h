@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 16:25:57 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 19:53:47 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ typedef struct s_philo
 	pthread_t		philo;
 }	t_philo;
 
-t_args	*t_args_init(void);
-t_info	*t_info_init(t_args *args);
+// t_args	*t_args_init(void);
+// t_info	*t_info_init(t_args *args);
+void	t_info_init(t_info *info, t_args *args);
 t_philo	*philos_init(t_args *args, t_info *info);
 size_t	get_milisecond(int sec, int usec);
 void	*philos_simulation(void *philo);
