@@ -28,16 +28,16 @@ int	t_info_mutex_init(t_info *info, t_args *args)
 	i = 0;
 	while (i < args->philo_num)
 	{
-		if (pthread_mutex_init(&(info->forks[i++]), NULL) == -1)
+		if (pthread_mutex_init(&(info->forks[i++]), NULL) != 0)
 			return (0);
 	}
-	if (pthread_mutex_init(&(info->print), NULL) == -1)
+	if (pthread_mutex_init(&(info->print), NULL) != 0)
 		return (0);
-	if (pthread_mutex_init(&(info->death), NULL) == -1)
+	if (pthread_mutex_init(&(info->death), NULL) != 0)
 		return (0);
-	if (pthread_mutex_init(&(info->start_line), NULL) == -1)
+	if (pthread_mutex_init(&(info->start_line), NULL) != 0)
 		return (0);
-	if (pthread_mutex_init(&(info->full), NULL) == -1)
+	if (pthread_mutex_init(&(info->full), NULL) != 0)
 		return (0);
 	return (1);
 }
