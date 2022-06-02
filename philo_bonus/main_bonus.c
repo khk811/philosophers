@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 15:34:20 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 16:54:40 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,16 +102,9 @@ int	main(int argc, char **argv)
 	int		full_philo;
 
 	parse_input(&philo, argc, argv);
-	sem_unlink("forks");
-	sem_unlink("print");
-	philo.forks = sem_open("forks", O_CREAT, 0644, (unsigned int)(philo.philo_num));
-	philo.print = sem_open("print", O_CREAT, 0644, 1);
-	printf("fork >> %p\n", philo.forks);
-	philo.start = malloc(sizeof(struct timeval));
-	philo.last_meal = malloc(sizeof(struct timeval));
-	gettimeofday(philo.start, NULL);
-	gettimeofday(philo.last_meal, NULL);
-	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
+	if (!total_alloc(&philo, &philos_pid))
+		return (1);
+	t_philo_init(&philo);
 	printf("philo num : %d\n", philo.philo_num);
 	i = 0;
 	while (i < philo.philo_num)

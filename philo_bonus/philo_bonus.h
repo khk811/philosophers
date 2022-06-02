@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 15:35:21 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 16:50:54 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_philo
 }	t_philo;
 
 int		ft_atoi(char *s);
+int		total_alloc(t_philo *philo, pid_t **philos_pid);
+int		t_philo_init(t_philo *philo);
 size_t	make_timestamp(struct timeval *start);
 void	print_statement(t_philo	*philo, char *s);
 int		grab_fork(t_philo *philo);
