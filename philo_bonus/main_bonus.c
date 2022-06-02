@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/31 16:55:47 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 15:34:20 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	philo_simulation(t_philo philo)
 	pthread_create(&moni, NULL, check_death, &philo);
 	while (1)
 	{
-		grab_fork(&philo);
+		// grab_fork(&philo);
 		eat_spaghetti(&philo);
 		if (philo.num_of_must_eat == 0)
 		{

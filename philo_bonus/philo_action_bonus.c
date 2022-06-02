@@ -6,20 +6,25 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:12:09 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/31 12:03:16 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 15:20:38 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	grab_fork(t_philo *philo)
+int	grab_fork(t_philo *philo)
 {
 	// if philo is not dead or something;
-	if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
+	if (philo->philo_num == 1)
+		return (0);
+	if ((int)make_timestamp(philo->last_meal) > philo->time_to_die)
+		return (0);
+	else
 	{
 		sem_wait(philo->forks);
 		sem_wait(philo->forks);
 		print_statement(philo, "has taken a fork");
+		return (1);
 	}
 }
 
@@ -36,6 +41,8 @@ void	eat_spaghetti(t_philo *philo)
 	// if philo isn's dead
 	if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
 	{
+		if (!grab_fork(philo))
+			return ;
 		gettimeofday(&duration, NULL);
 		gettimeofday(philo->last_meal, NULL);
 		// if philo isn't dead;
@@ -49,8 +56,8 @@ void	eat_spaghetti(t_philo *philo)
 				break ;
 			usleep(150);
 		}
+		leave_fork(philo);
 	}
-	leave_fork(philo);
 }
 
 void	sleep_after_diner(t_philo *philo)
