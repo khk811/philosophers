@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 19:51:45 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/02 20:04:41 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	*philos_simulation(void *philo)
 	return (NULL);
 }
 
-void	parse_input(t_args *args, int argc, char **argv)
+int	parse_input(t_args *args, int argc, char **argv)
 {
 	if (argc == 5 || argc == 6)
 	{
@@ -128,6 +128,11 @@ void	parse_input(t_args *args, int argc, char **argv)
 		else
 			args->num_of_must_eat = -1;
 	}
+	if (args->philo_num < 1 || args->time_to_die < 1 || args->time_to_eat < 1 || \
+	args->time_to_sleep < 1 || args->num_of_must_eat == 0)
+		return (0);
+	else
+		return (1);
 }
 
 int	main(int argc, char **argv)
@@ -138,7 +143,8 @@ int	main(int argc, char **argv)
 	int	i;
 
 	// args = t_args_init();
-	parse_input(&args, argc, argv);
+	if (!parse_input(&args, argc, argv))
+		return (1);
 	t_info_init(&info, &args);
 	printf("<< total philo_num : %d>>\n\n", args.philo_num);
 	// lock start line;
