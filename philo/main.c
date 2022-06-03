@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:42:31 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:54:29 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int	main(int argc, char **argv)
 	t_info	info;
 	t_philo	*philos;
 	int	i;
+	int	success_thread_num;
 
 	if (!parse_input(&args, argc, argv))
 		return (1);
@@ -168,7 +169,9 @@ int	main(int argc, char **argv)
 	// lock start line;
 	pthread_mutex_lock(&(info.start_line));
 	// philos = philos_init(&args, &info);
-	philos_init(&args, &info, philos);
+	success_thread_num = philos_init(&args, &info, philos);
+	if (success_thread_num != args.philo_num)
+		info.death_flag = 1;
 	// unlock start line;
 	pthread_mutex_unlock(&(info.start_line));
 	i = 0;
@@ -190,11 +193,12 @@ int	main(int argc, char **argv)
 		usleep(150);
 	}
 	i = 0;
-	while (i < args.philo_num)
+	while (i < success_thread_num)
 	{
 		pthread_join(philos[i].philo, NULL);
 		i++;
 	}
+	printf("success thread num : %d\n", i);
 	// system("leaks philo");
 	return (0);
 }

@@ -43,14 +43,16 @@ int	philos_init(t_args *args, t_info *info, t_philo *philos)
 	i = 0;
 	while (i < args->philo_num)
 	{
-		(philos)[i].id = i;
-		(philos)[i].eat_count = args->num_of_must_eat;
+		philos[i].id = i;
+		philos[i].eat_count = args->num_of_must_eat;
 		gettimeofday(&((philos)[i].last_meal), NULL);
-		(philos)[i].is_dead = 0;
-		(philos)[i].info = info;
-		(philos)[i].args = args;
-		pthread_create(&((philos)[i].philo), NULL, philos_simulation, (void *)(&((philos)[i])));
+		philos[i].is_dead = 0;
+		philos[i].info = info;
+		philos[i].args = args;
+		if (pthread_create(&(philos[i].philo), NULL, philos_simulation, \
+		(void *)(&(philos[i]))) != 0)
+			return (i);
 		i++;
 	}
-	return (1);
+	return (i);
 }
