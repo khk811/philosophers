@@ -6,13 +6,13 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:39:09 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:51:45 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	decide_fork_priority(t_philo *philo, int *right, int *left)
+static void	decide_fork_priority(t_philo *philo, int *right, int *left)
 {
 	int	id;
 	int	num;

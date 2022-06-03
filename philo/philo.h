@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:46:29 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:52:31 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,36 @@ typedef struct s_philo
 	pthread_t		philo;
 }	t_philo;
 
+// main.c
+void	*feed_philos(void *philo);
+
+// parse.c
 int		parse_input(t_args *args, int argc, char **argv);
+
+// struct_alloc.c
 int		free_t_info(t_info *info, t_args *args);
 int		free_info_n_philos(t_info *info, t_philo **philos, t_args *args);
 int		alloc_info_n_philos(t_info *info, t_philo **philos, t_args *args);
+
+//struct_init.c
 int		t_info_init(t_info *info, t_args *args);
 int		philos_init(t_args *args, t_info *info, t_philo *philos);
 
-size_t	get_milisecond(int sec, int usec);
-void	usleep_accurately(struct timeval stamp, int usleep_duration);
-void	*feed_philos(void *philo);
+// philos_status.c
 int		should_philo_die(t_philo *philo);
+int		did_someone_die(t_info *info);
 int		is_philo_full(t_philo *philo);
-void	decide_fork_priority(t_philo *philo, int *right, int *left);
-size_t	make_timestamp(struct timeval start);
+void	print_status(t_philo *philo, char *s);
+
+// philos_action.c
 int		grab_forks(t_philo *philo);
 void	leave_forks(t_philo *philo);
 int		eat_spaghetti(t_philo *philo);
 int		sleep_after_diner(t_philo *philo);
-void	print_status(t_philo *philo, char *s);
-int		did_someone_die(t_info *info);
+
+// time.c
+size_t	get_milisecond(int sec, int usec);
+size_t	make_timestamp(struct timeval start);
+void	usleep_accurately(struct timeval stamp, int usleep_duration);
 
 #endif
