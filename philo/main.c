@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:45:32 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 19:40:42 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ void	watch_philos(t_args *args, t_info *info, t_philo *philos)
 	{
 		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
 			break ;
+		pthread_mutex_lock(&(info->full));
 		if (info->hungry_philo == 0)
 		{
 			printf("Philos are full. end of program\n");
+			pthread_mutex_unlock(&(info->full));
 			break ;
 		}
+		pthread_mutex_unlock(&(info->full));
 		i++;
 		if (i == args->philo_num)
 			i = 0;
@@ -89,10 +92,7 @@ int	main(int argc, char **argv)
 	watch_philos(&args, &info, philos);
 	i = 0;
 	while (i < success_thread_num)
-	{
-		pthread_join(philos[i].philo, NULL);
-		i++;
-	}
+		pthread_join(philos[i++].philo, NULL);
 	free_info_n_philos(&info, &philos, &args);
 	return (0);
 }

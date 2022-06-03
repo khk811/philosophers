@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:57:27 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 19:51:54 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ int	eat_spaghetti(t_philo *philo)
 		gettimeofday(&(philo->last_meal), NULL);
 		if (!did_someone_die(philo->info))
 			print_status(philo, "is eating");
+		pthread_mutex_lock(&(philo->info->full));
 		(philo->eat_count)--;
+		pthread_mutex_unlock(&(philo->info->full));
 		usleep_accurately(duration, philo->args->time_to_eat);
 		leave_forks(philo);
 	}

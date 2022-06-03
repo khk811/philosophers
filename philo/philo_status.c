@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:20:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:40:11 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 19:47:21 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ int	should_philo_die(t_philo *philo)
 
 int	is_philo_full(t_philo *philo)
 {
+	pthread_mutex_lock(&(philo->info->full));
 	if (philo->eat_count == 0)
 	{
-		pthread_mutex_lock(&(philo->info->full));
 		(philo->info->hungry_philo)--;
 		pthread_mutex_unlock(&(philo->info->full));
 		return (1);
 	}
+	pthread_mutex_unlock(&(philo->info->full));
 	return (0);
 }
 
