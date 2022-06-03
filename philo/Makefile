@@ -6,7 +6,7 @@
 #    By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 20:51:27 by hyunkkim          #+#    #+#              #
-#    Updated: 2022/06/02 16:26:10 by hyunkkim         ###   ########seoul.kr   #
+#    Updated: 2022/06/03 15:54:24 by hyunkkim         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 RM=rm -f
 SRC=main.c \
+	struct_alloc.c \
 	struct_init.c \
 	utils.c \
 	philo_action.c

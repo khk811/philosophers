@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 14:14:48 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:16:24 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct s_args
 
 typedef struct s_info
 {
-	struct timeval	*start;
+	// struct timeval	*start;
+	struct timeval	start;
 	pthread_mutex_t	*forks;
 	int				*fork_arr;
 	pthread_mutex_t	print;
@@ -45,7 +46,8 @@ typedef struct s_philo
 {
 	int				id;
 	int				eat_count;
-	struct timeval	*last_meal;
+	// struct timeval	*last_meal;
+	struct timeval	last_meal;
 	int				is_dead;
 	t_info			*info;
 	t_args			*args;
@@ -55,8 +57,11 @@ typedef struct s_philo
 // t_args	*t_args_init(void);
 // t_info	*t_info_init(t_args *args);
 int		free_t_info(t_info *info);
+t_info	*t_info_alloc(t_info *info, t_args *args);
+int		free_philos(t_philo **philos);
+t_philo	*philos_alloc(t_args *args);
 int		t_info_init(t_info *info, t_args *args);
-t_philo	*philos_init(t_args *args, t_info *info);
+int		philos_init(t_args *args, t_info *info, t_philo **);
 size_t	get_milisecond(int sec, int usec);
 void	usleep_accurately(struct timeval *stamp, int usleep_duration);
 void	*philos_simulation(void *philo);
