@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:54:29 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:59:23 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,30 @@ int	parse_input(t_args *args, int argc, char **argv)
 		return (1);
 }
 
+void	watch_philos(t_args *args, t_info *info, t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while (info->death_flag == 0)
+	{
+		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
+		{
+			printf("%zu spand\n", make_timestamp(philos[i].last_meal));
+			break ;
+		}
+		if (info->hungry_philo == 0)
+		{
+			printf("Philos are full. end of program\n");
+			break ;
+		}
+		i++;
+		if (i == args->philo_num)
+			i = 0;
+		usleep(150);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_args	args;
@@ -174,24 +198,7 @@ int	main(int argc, char **argv)
 		info.death_flag = 1;
 	// unlock start line;
 	pthread_mutex_unlock(&(info.start_line));
-	i = 0;
-	while (info.death_flag == 0)
-	{
-		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
-		{
-			printf("%zu spand\n", make_timestamp(philos[i].last_meal));
-			break ;
-		}
-		if (info.hungry_philo == 0)
-		{
-			printf("Philos are full. end of program\n");
-			break ;
-		}
-		i++;
-		if (i == args.philo_num)
-			i = 0;
-		usleep(150);
-	}
+	watch_philos(&args, &info, philos);
 	i = 0;
 	while (i < success_thread_num)
 	{
