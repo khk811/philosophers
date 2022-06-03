@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 17:12:18 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 17:22:41 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	prep_struct(t_args *args, t_info *info, t_philo **philos)
 		return (0);
 	if (!t_info_init(info, args))
 	{
-		free_info_n_philos(info, philos);
+		free_info_n_philos(info, philos, args);
 		return (0);
 	}
 	return (1);
@@ -200,5 +200,6 @@ int	main(int argc, char **argv)
 		pthread_join(philos[i].philo, NULL);
 		i++;
 	}
+	free_info_n_philos(&info, &philos, &args);
 	return (0);
 }

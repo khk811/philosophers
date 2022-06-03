@@ -27,7 +27,7 @@ int	t_info_init(t_info *info, t_args *args)
 
 	gettimeofday(&(info->start), NULL);
 	if (!t_info_mutex_init(info, args))
-		return (free_t_info(info));
+		return (free_t_info(info, args));
 	i = 0;
 	while (i < args->philo_num)
 		(info->fork_arr)[i++] = 1;
