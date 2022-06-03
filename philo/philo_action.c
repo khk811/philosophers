@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 15:04:06 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 13:52:46 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,27 @@ int	grep_forks(t_philo *philo)
 
 	// ret = check_death_flag(philo->info);
 	decide_fork_priority(philo, &right_fork, &left_fork);
-	if (right_fork == left_fork)
-		return (0);
+	// if (right_fork == left_fork)
+	// 	return (0);
 	if (check_death_flag(philo->info))
 		return (0);
 	else
 	{
 		pthread_mutex_lock(&(philo->info->forks[right_fork]));
 		philo->info->fork_arr[right_fork] = 0;
+		print_statement(philo, "has taken a fork");
+		if (right_fork == left_fork)
+		{
+			usleep(philo->args->time_to_die * 900);
+			while (1)
+			{
+				if ((int)make_timestamp(philo->last_meal) >= philo->args->time_to_die)
+					break ;
+				usleep(150);
+			}
+			pthread_mutex_unlock(&(philo->info->forks[right_fork]));
+			return (0);
+		}
 		pthread_mutex_lock(&(philo->info->forks[left_fork]));
 		philo->info->fork_arr[left_fork] = 0;
 		print_statement(philo, "has taken a fork");
