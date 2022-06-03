@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:23:10 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:36:12 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,13 @@ typedef struct s_philo
 // t_info	*t_info_init(t_args *args);
 int		free_t_info(t_info *info);
 t_info	*t_info_alloc(t_info *info, t_args *args);
-int		free_philos(t_philo **philos);
 t_philo	*philos_alloc(t_args *args);
+int		alloc_info_n_philos(t_info *info, t_philo **philos, t_args *args);
+int		free_info_n_philos(t_info *info, t_philo **philos);
 int		t_info_init(t_info *info, t_args *args);
 int		philos_init(t_args *args, t_info *info, t_philo **);
+
+
 size_t	get_milisecond(int sec, int usec);
 void	usleep_accurately(struct timeval stamp, int usleep_duration);
 void	*philos_simulation(void *philo);

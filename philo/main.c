@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:22:30 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:36:38 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,18 +156,12 @@ int	main(int argc, char **argv)
 
 	if (!parse_input(&args, argc, argv))
 		return (1);
-	if (!t_info_alloc(&info, &args))
+	if (!alloc_info_n_philos(&info, &philos, &args))
 		return (1);
-	philos = philos_alloc(&args);
-	if (!philos)
+	if (!t_info_init(&info, &args))
 	{
-		free_t_info(&info);
+		free_info_n_philos(&info, &philos);
 		return (1);
-	}
-	if (t_info_init(&info, &args))
-	{
-		free_t_info(&info);
-		free_philos(&philos);
 	}
 	printf(">> %zu\n", make_timestamp(info.start));
 	printf("<< total philo_num : %d>>\n\n", args.philo_num);
