@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:59:23 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 17:02:36 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,8 @@ void	*philos_simulation(void *philo)
 		usleep(1500);
 	while (!check_death_flag(the_philo->info))
 	{
-		// if (grep_forks(the_philo))
-		// 	break ;
 		if (eat_spaghetti(the_philo))
 			break ;
-		// leave_forks(the_philo);
 		if (is_philo_full(the_philo))
 			break ;
 		if (sleep_after_diner(the_philo))
@@ -155,10 +152,7 @@ void	watch_philos(t_args *args, t_info *info, t_philo *philos)
 	while (info->death_flag == 0)
 	{
 		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
-		{
-			printf("%zu spand\n", make_timestamp(philos[i].last_meal));
 			break ;
-		}
 		if (info->hungry_philo == 0)
 		{
 			printf("Philos are full. end of program\n");
@@ -188,15 +182,10 @@ int	main(int argc, char **argv)
 		free_info_n_philos(&info, &philos);
 		return (1);
 	}
-	printf(">> %zu\n", make_timestamp(info.start));
-	printf("<< total philo_num : %d>>\n\n", args.philo_num);
-	// lock start line;
 	pthread_mutex_lock(&(info.start_line));
-	// philos = philos_init(&args, &info);
 	success_thread_num = philos_init(&args, &info, philos);
 	if (success_thread_num != args.philo_num)
 		info.death_flag = 1;
-	// unlock start line;
 	pthread_mutex_unlock(&(info.start_line));
 	watch_philos(&args, &info, philos);
 	i = 0;
@@ -205,7 +194,5 @@ int	main(int argc, char **argv)
 		pthread_join(philos[i].philo, NULL);
 		i++;
 	}
-	printf("success thread num : %d\n", i);
-	// system("leaks philo");
 	return (0);
 }
