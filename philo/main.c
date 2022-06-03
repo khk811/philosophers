@@ -6,22 +6,11 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:21:51 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:23:38 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	decide_fork_priority(t_philo *philo, int *right, int *left)
-{
-	int	id;
-	int	num;
-
-	id = philo->id;
-	num = philo->args->philo_num;
-	*right = id;
-	*left = ((num - 1) + id) % num;
-}
 
 void	*philos_simulation(void *philo)
 {
