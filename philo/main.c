@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 17:02:36 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 17:12:18 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ size_t	make_timestamp(struct timeval start)
 	gettimeofday(&curr, NULL);
 	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
 	start_time = get_milisecond(start.tv_sec, start.tv_usec);
-	// printf("%zu - %zu\n", curr_time, start_time);
 	return (curr_time - start_time);
 }
 
@@ -165,6 +164,18 @@ void	watch_philos(t_args *args, t_info *info, t_philo *philos)
 	}
 }
 
+int	prep_struct(t_args *args, t_info *info, t_philo **philos)
+{
+	if (!alloc_info_n_philos(info, philos, args))
+		return (0);
+	if (!t_info_init(info, args))
+	{
+		free_info_n_philos(info, philos);
+		return (0);
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_args	args;
@@ -175,13 +186,8 @@ int	main(int argc, char **argv)
 
 	if (!parse_input(&args, argc, argv))
 		return (1);
-	if (!alloc_info_n_philos(&info, &philos, &args))
+	if (!prep_struct(&args, &info, &philos))
 		return (1);
-	if (!t_info_init(&info, &args))
-	{
-		free_info_n_philos(&info, &philos);
-		return (1);
-	}
 	pthread_mutex_lock(&(info.start_line));
 	success_thread_num = philos_init(&args, &info, philos);
 	if (success_thread_num != args.philo_num)
