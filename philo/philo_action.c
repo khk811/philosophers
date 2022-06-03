@@ -6,13 +6,13 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:51:45 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:57:27 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	decide_fork_priority(t_philo *philo, int *right, int *left)
+static void	get_fork_index(t_philo *philo, int *right, int *left)
 {
 	int	id;
 	int	num;
@@ -28,7 +28,7 @@ int	grab_forks(t_philo *philo)
 	int		right_fork;
 	int		left_fork;
 
-	decide_fork_priority(philo, &right_fork, &left_fork);
+	get_fork_index(philo, &right_fork, &left_fork);
 	if (did_someone_die(philo->info))
 		return (0);
 	else
@@ -55,7 +55,7 @@ void	leave_forks(t_philo *philo)
 	int		right_fork;
 	int		left_fork;
 
-	decide_fork_priority(philo, &right_fork, &left_fork);
+	get_fork_index(philo, &right_fork, &left_fork);
 	philo->info->fork_arr[left_fork] = 1;
 	pthread_mutex_unlock(&(philo->info->forks[left_fork]));
 	philo->info->fork_arr[right_fork] = 1;
