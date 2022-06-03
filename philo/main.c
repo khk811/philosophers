@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 20:40:17 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 14:14:26 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ size_t	make_timestamp(struct timeval *start)
 	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
 	start_time = get_milisecond(start->tv_sec, start->tv_usec);
 	return (curr_time - start_time);
+}
+
+void	usleep_accurately(struct timeval *stamp, int usleep_duration)
+{
+	usleep(usleep_duration * 900);
+	while (1)
+	{
+		if ((int)make_timestamp(stamp) >= usleep_duration)
+			break ;
+		usleep(150);
+	}
 }
 
 int	should_philo_die(t_philo *philo)

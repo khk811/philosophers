@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 20:41:13 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 14:14:48 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		free_t_info(t_info *info);
 int		t_info_init(t_info *info, t_args *args);
 t_philo	*philos_init(t_args *args, t_info *info);
 size_t	get_milisecond(int sec, int usec);
+void	usleep_accurately(struct timeval *stamp, int usleep_duration);
 void	*philos_simulation(void *philo);
 int		should_philo_die(t_philo *philo);
 void	decide_fork_priority(t_philo *philo, int *right, int *left);
