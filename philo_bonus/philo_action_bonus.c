@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:12:09 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 15:20:38 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 13:51:02 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 int	grab_fork(t_philo *philo)
 {
 	// if philo is not dead or something;
-	if (philo->philo_num == 1)
-		return (0);
+	// if (philo->philo_num == 1)
+	// 	return (0);
 	if ((int)make_timestamp(philo->last_meal) > philo->time_to_die)
 		return (0);
 	else
 	{
 		sem_wait(philo->forks);
+		print_statement(philo, "has taken a fork");
 		sem_wait(philo->forks);
 		print_statement(philo, "has taken a fork");
 		return (1);
