@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:38:13 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:46:29 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_philo
 	pthread_t		philo;
 }	t_philo;
 
+int		parse_input(t_args *args, int argc, char **argv);
 int		free_t_info(t_info *info, t_args *args);
 int		free_info_n_philos(t_info *info, t_philo **philos, t_args *args);
 int		alloc_info_n_philos(t_info *info, t_philo **philos, t_args *args);
@@ -70,7 +71,6 @@ void	leave_forks(t_philo *philo);
 int		eat_spaghetti(t_philo *philo);
 int		sleep_after_diner(t_philo *philo);
 void	print_status(t_philo *philo, char *s);
-int		ft_atoi(char *s);
 int		did_someone_die(t_info *info);
 
 #endif

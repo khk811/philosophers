@@ -6,7 +6,7 @@
 #    By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 20:51:27 by hyunkkim          #+#    #+#              #
-#    Updated: 2022/06/03 18:25:41 by hyunkkim         ###   ########seoul.kr   #
+#    Updated: 2022/06/03 18:46:44 by hyunkkim         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ RM=rm -f
 SRC=main.c \
 	struct_alloc.c \
 	struct_init.c \
-	utils.c \
 	philo_status.c \
 	philo_action.c \
+	parse.c \
 	time.c
 OBJ=$(SRC:.c=.o)
 
