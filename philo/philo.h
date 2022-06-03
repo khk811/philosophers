@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:36:12 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:41:15 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_philo	*philos_alloc(t_args *args);
 int		alloc_info_n_philos(t_info *info, t_philo **philos, t_args *args);
 int		free_info_n_philos(t_info *info, t_philo **philos);
 int		t_info_init(t_info *info, t_args *args);
-int		philos_init(t_args *args, t_info *info, t_philo **);
+int		philos_init(t_args *args, t_info *info, t_philo *philos);
 
 
 size_t	get_milisecond(int sec, int usec);

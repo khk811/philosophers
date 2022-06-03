@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:36:38 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:42:31 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int	main(int argc, char **argv)
 	// lock start line;
 	pthread_mutex_lock(&(info.start_line));
 	// philos = philos_init(&args, &info);
-	philos_init(&args, &info, &philos);
+	philos_init(&args, &info, philos);
 	// unlock start line;
 	pthread_mutex_unlock(&(info.start_line));
 	i = 0;
