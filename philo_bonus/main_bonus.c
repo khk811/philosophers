@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 16:54:40 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 20:18:39 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ int	main(int argc, char **argv)
 	full_philo = 0;
 	while (i < philo.philo_num)
 	{
-		waitpid(philos_pid[i], &status, WNOHANG);
+		// waitpid(philos_pid[i], &status, WNOHANG);
+		waitpid(-1, &status, 0);
 		if (WEXITSTATUS(status) == 42)
 		{
 			j = 0;
@@ -143,19 +144,22 @@ int	main(int argc, char **argv)
 		}
 		if (WEXITSTATUS(status) == 24)
 		{
-			j = 0;
-			while (j < philo.philo_num)
-			{
-				waitpid(-1, &status, 0);
-				j++;
-			}
-			printf("All philo ate well. The end\n");
-			break ;
+			full_philo++;
+			// j = 0;
+			// while (j < philo.philo_num)
+			// {
+			// 	waitpid(-1, &status, 0);
+			// 	j++;
+			// }
+			// printf("All philo ate well. The end\n");
+			// break ;
 		}
 		usleep(150);
 		i++;
-		if (i == philo.philo_num)
-			i = 0;
+		// if (i == philo.philo_num)
+		// 	i = 0;
 	}
+	if (full_philo == philo.philo_num)
+		printf("All philo ate well. The end\n");
 	return (0);
 }
