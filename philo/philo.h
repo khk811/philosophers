@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 20:55:05 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:22:22 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:38:13 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_info
 	pthread_mutex_t	death;
 	int				death_flag;
 	pthread_mutex_t	start_line;
-	pthread_mutex_t full;
+	pthread_mutex_t	full;
 	int				hungry_philo;
 }	t_info;
 
@@ -60,19 +60,17 @@ int		philos_init(t_args *args, t_info *info, t_philo *philos);
 
 size_t	get_milisecond(int sec, int usec);
 void	usleep_accurately(struct timeval stamp, int usleep_duration);
-void	*philos_simulation(void *philo);
+void	*feed_philos(void *philo);
 int		should_philo_die(t_philo *philo);
 int		is_philo_full(t_philo *philo);
 void	decide_fork_priority(t_philo *philo, int *right, int *left);
 size_t	make_timestamp(struct timeval start);
-int		grep_forks(t_philo *philo);
+int		grab_forks(t_philo *philo);
 void	leave_forks(t_philo *philo);
 int		eat_spaghetti(t_philo *philo);
 int		sleep_after_diner(t_philo *philo);
-void	print_statement(t_philo *philo, char *s);
+void	print_status(t_philo *philo, char *s);
 int		ft_atoi(char *s);
-
-// screening
-int	check_death_flag(t_info *info);
+int		did_someone_die(t_info *info);
 
 #endif

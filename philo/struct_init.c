@@ -49,7 +49,7 @@ int	philos_init(t_args *args, t_info *info, t_philo *philos)
 		philos[i].is_dead = 0;
 		philos[i].info = info;
 		philos[i].args = args;
-		if (pthread_create(&(philos[i].philo), NULL, philos_simulation, \
+		if (pthread_create(&(philos[i].philo), NULL, feed_philos, \
 		(void *)(&(philos[i]))) != 0)
 			return (i);
 		i++;

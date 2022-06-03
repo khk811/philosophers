@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   philo_status.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:20:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:21:40 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:40:11 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ int	is_philo_full(t_philo *philo)
 	return (0);
 }
 
-void	print_statement(t_philo *philo, char *s)
+void	print_status(t_philo *philo, char *s)
 {
 	pthread_mutex_lock(&(philo->info->print));
-	if (!check_death_flag(philo->info))
+	if (!did_someone_die(philo->info))
 		printf("%zu %d %s\n", make_timestamp(philo->info->start), philo->id, s);
 	pthread_mutex_unlock(&(philo->info->print));
 }
 
-int	check_death_flag(t_info *info)
+int	did_someone_die(t_info *info)
 {
 	int	ret;
 

@@ -6,13 +6,13 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:23:38 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:39:55 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philos_simulation(void *philo)
+void	*feed_philos(void *philo)
 {
 	t_philo	*the_philo;
 
@@ -21,7 +21,7 @@ void	*philos_simulation(void *philo)
 	pthread_mutex_unlock(&(the_philo->info->start_line));
 	if (the_philo->id % 2 == 1)
 		usleep(1500);
-	while (!check_death_flag(the_philo->info))
+	while (!did_someone_die(the_philo->info))
 	{
 		if (eat_spaghetti(the_philo))
 			break ;
@@ -29,8 +29,8 @@ void	*philos_simulation(void *philo)
 			break ;
 		if (sleep_after_diner(the_philo))
 			break ;
-		if (!check_death_flag(the_philo->info))
-			print_statement(the_philo, "is thinking");
+		if (!did_someone_die(the_philo->info))
+			print_status(the_philo, "is thinking");
 		usleep(200);
 	}
 	return (NULL);

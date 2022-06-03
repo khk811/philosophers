@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:23:14 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 18:39:09 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ void	decide_fork_priority(t_philo *philo, int *right, int *left)
 	*left = ((num - 1) + id) % num;
 }
 
-int	grep_forks(t_philo *philo)
+int	grab_forks(t_philo *philo)
 {
 	int		right_fork;
 	int		left_fork;
 
 	decide_fork_priority(philo, &right_fork, &left_fork);
-	if (check_death_flag(philo->info))
+	if (did_someone_die(philo->info))
 		return (0);
 	else
 	{
 		pthread_mutex_lock(&(philo->info->forks[right_fork]));
 		philo->info->fork_arr[right_fork] = 0;
-		print_statement(philo, "has taken a fork");
+		print_status(philo, "has taken a fork");
 		if (right_fork == left_fork)
 		{
 			usleep_accurately((philo->last_meal), philo->args->time_to_die);
@@ -45,7 +45,7 @@ int	grep_forks(t_philo *philo)
 		}
 		pthread_mutex_lock(&(philo->info->forks[left_fork]));
 		philo->info->fork_arr[left_fork] = 0;
-		print_statement(philo, "has taken a fork");
+		print_status(philo, "has taken a fork");
 		return (1);
 	}
 }
@@ -66,19 +66,19 @@ int	eat_spaghetti(t_philo *philo)
 {
 	struct timeval	duration;
 
-	if (!check_death_flag(philo->info))
+	if (!did_someone_die(philo->info))
 	{
-		if (!grep_forks(philo))
-			return (check_death_flag(philo->info));
+		if (!grab_forks(philo))
+			return (did_someone_die(philo->info));
 		gettimeofday(&duration, NULL);
 		gettimeofday(&(philo->last_meal), NULL);
-		if (!check_death_flag(philo->info))
-			print_statement(philo, "is eating");
+		if (!did_someone_die(philo->info))
+			print_status(philo, "is eating");
 		(philo->eat_count)--;
 		usleep_accurately(duration, philo->args->time_to_eat);
 		leave_forks(philo);
 	}
-	return (check_death_flag(philo->info));
+	return (did_someone_die(philo->info));
 }
 
 int	sleep_after_diner(t_philo *philo)
@@ -86,12 +86,12 @@ int	sleep_after_diner(t_philo *philo)
 	struct timeval	duration;
 	int				ret;
 
-	ret = check_death_flag(philo->info);
+	ret = did_someone_die(philo->info);
 	if (!ret)
 	{
 		gettimeofday(&duration, NULL);
-		if (!check_death_flag(philo->info))
-			print_statement(philo, "is sleeping");
+		if (!did_someone_die(philo->info))
+			print_status(philo, "is sleeping");
 		usleep_accurately(duration, philo->args->time_to_sleep);
 	}
 	return (ret);
