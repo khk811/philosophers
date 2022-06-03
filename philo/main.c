@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 19:40:42 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 20:02:39 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	main(int argc, char **argv)
 	t_args	args;
 	t_info	info;
 	t_philo	*philos;
-	int	i;
-	int	success_thread_num;
+	int		i;
+	int		success_thread_num;
 
 	if (!parse_input(&args, argc, argv))
 		return (1);

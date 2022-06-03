@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:04:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:47:15 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 20:02:58 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_atoi(char *s)
 			sign *= -1;
 		s++;
 	}
-	while(*s && ft_isdigit(*s))
+	while (*s && ft_isdigit(*s))
 	{
 		num *= 10;
 		num += (*s) - '0';

@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:13:10 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 18:13:58 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 20:03:24 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ size_t	get_milisecond(int sec, int usec)
 size_t	make_timestamp(struct timeval start)
 {
 	struct timeval	curr;
-	size_t	curr_time;
-	size_t	start_time;
+	size_t			curr_time;
+	size_t			start_time;
 
 	gettimeofday(&curr, NULL);
 	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
