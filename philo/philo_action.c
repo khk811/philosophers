@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:15:13 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:23:35 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	grep_forks(t_philo *philo)
 		print_statement(philo, "has taken a fork");
 		if (right_fork == left_fork)
 		{
-			usleep_accurately(&(philo->last_meal), philo->args->time_to_die);
+			usleep_accurately((philo->last_meal), philo->args->time_to_die);
 			usleep(1000);
 			// usleep(philo->args->time_to_die * 900);
 			// while (1)
@@ -80,7 +80,7 @@ int	eat_spaghetti(t_philo *philo)
 		if (!check_death_flag(philo->info))
 			print_statement(philo, "is eating");
 		(philo->eat_count)--;
-		usleep_accurately(&duration, philo->args->time_to_eat);
+		usleep_accurately(duration, philo->args->time_to_eat);
 		// usleep((philo->args->time_to_eat * 900));
 		// while (1)
 		// {
@@ -108,7 +108,7 @@ int	sleep_after_diner(t_philo *philo)
 		// lock????;
 		if (!check_death_flag(philo->info))
 			print_statement(philo, "is sleeping");
-		usleep_accurately(&duration, philo->args->time_to_sleep);
+		usleep_accurately(duration, philo->args->time_to_sleep);
 		// usleep(philo->args->time_to_sleep * 900);
 		// while (1)
 		// {

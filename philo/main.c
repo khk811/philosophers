@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 16:14:51 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/03 16:22:30 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ size_t	get_milisecond(int sec, int usec)
 	return ((sec * 1000) + (usec / 1000));
 }
 
-size_t	make_timestamp(struct timeval *start)
+size_t	make_timestamp(struct timeval start)
 {
 	struct timeval	curr;
 	size_t	curr_time;
@@ -36,12 +36,12 @@ size_t	make_timestamp(struct timeval *start)
 
 	gettimeofday(&curr, NULL);
 	curr_time = get_milisecond(curr.tv_sec, curr.tv_usec);
-	start_time = get_milisecond(start->tv_sec, start->tv_usec);
+	start_time = get_milisecond(start.tv_sec, start.tv_usec);
 	// printf("%zu - %zu\n", curr_time, start_time);
 	return (curr_time - start_time);
 }
 
-void	usleep_accurately(struct timeval *stamp, int usleep_duration)
+void	usleep_accurately(struct timeval stamp, int usleep_duration)
 {
 	usleep(usleep_duration * 900);
 	while (1)
@@ -56,7 +56,7 @@ int	should_philo_die(t_philo *philo)
 {
 	int	starve_time;
 
-	starve_time = (int)make_timestamp(&(philo->last_meal));
+	starve_time = (int)make_timestamp(philo->last_meal);
 	if (philo->args->time_to_die <= starve_time)
 	{
 		pthread_mutex_lock(&(philo->info->death));
@@ -64,7 +64,7 @@ int	should_philo_die(t_philo *philo)
 		pthread_mutex_unlock(&(philo->info->death));
 		usleep(100);
 		pthread_mutex_lock(&(philo->info->print));
-		printf("%zu %d died\n", make_timestamp(&(philo->info->start)), philo->id);
+		printf("%zu %d died\n", make_timestamp(philo->info->start), philo->id);
 		pthread_mutex_unlock(&(philo->info->print));
 	}
 	return (philo->info->death_flag);
@@ -86,7 +86,7 @@ void	print_statement(t_philo *philo, char *s)
 {
 	pthread_mutex_lock(&(philo->info->print));
 	if (!check_death_flag(philo->info))
-		printf("%zu %d %s\n", make_timestamp(&(philo->info->start)), philo->id, s);
+		printf("%zu %d %s\n", make_timestamp(philo->info->start), philo->id, s);
 	pthread_mutex_unlock(&(philo->info->print));
 }
 
@@ -167,9 +167,9 @@ int	main(int argc, char **argv)
 	if (t_info_init(&info, &args))
 	{
 		free_t_info(&info);
-		free_philos(&philos, &args);
+		free_philos(&philos);
 	}
-	printf(">> %zu\n", make_timestamp(&(info.start)));
+	printf(">> %zu\n", make_timestamp(info.start));
 	printf("<< total philo_num : %d>>\n\n", args.philo_num);
 	// lock start line;
 	pthread_mutex_lock(&(info.start_line));
@@ -182,7 +182,7 @@ int	main(int argc, char **argv)
 	{
 		if (should_philo_die(&philos[i]) && !is_philo_full(&philos[i]))
 		{
-			printf("%zu spand\n", make_timestamp(&(philos[i].last_meal)));
+			printf("%zu spand\n", make_timestamp(philos[i].last_meal));
 			break ;
 		}
 		if (info.hungry_philo == 0)

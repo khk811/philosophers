@@ -25,9 +25,6 @@ int	t_info_init(t_info *info, t_args *args)
 {
 	int		i;
 
-	// info = t_info_alloc(info, args);
-	// if (!info)
-	// 	return (0);
 	gettimeofday(&(info->start), NULL);
 	if (!t_info_mutex_init(info, args))
 		return (free_t_info(info));
@@ -41,12 +38,8 @@ int	t_info_init(t_info *info, t_args *args)
 
 int	philos_init(t_args *args, t_info *info, t_philo **philos)
 {
-	// t_philo	*philos;
 	int		i;
 
-	// philos = t_philo_alloc(args);
-	// if (!philos)
-	// 	return (NULL);
 	i = 0;
 	while (i < args->philo_num)
 	{
