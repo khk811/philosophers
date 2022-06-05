@@ -12,14 +12,14 @@
 
 #include "philo_bonus.h"
 
-int	ft_isdigit(char c)
+static int	ft_isdigit(char c)
 {
 	if (c >= '0' || c <= '9')
 		return (1);
 	return (0);
 }
 
-int	ft_atoi(char *s)
+static int	ft_atoi(char *s)
 {
 	int	num;
 	int	sign;
@@ -40,4 +40,20 @@ int	ft_atoi(char *s)
 	}
 	num *= sign;
 	return (num);
+}
+
+void	parse_input(t_philo *philo, int argc, char **argv)
+{
+
+	if (argc == 5 || argc == 6)
+	{
+		philo->philo_num = ft_atoi(argv[1]);
+		philo->time_to_die = ft_atoi(argv[2]);
+		philo->time_to_eat = ft_atoi(argv[3]);
+		philo->time_to_sleep = ft_atoi(argv[4]);
+		if (argc == 6)
+			philo->num_of_must_eat = ft_atoi(argv[5]);
+		else
+			philo->num_of_must_eat = -1;
+	}
 }

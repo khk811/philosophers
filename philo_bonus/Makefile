@@ -15,9 +15,10 @@ CC=cc
 CFLAGS=-Wall -Werror -Wextra
 RM=rm -f
 SRC=main_bonus.c \
-	utils_bonus.c \
+	parse_bonus.c \
 	struct_init_bonus.c \
-	philo_action_bonus.c
+	philo_action_bonus.c \
+	time_bonus.c
 OBJ=$(SRC:.c=.o)
 
 $(NAME) : $(OBJ)

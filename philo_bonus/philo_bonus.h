@@ -35,7 +35,7 @@ typedef struct s_philo
 	struct timeval	*last_meal;
 }	t_philo;
 
-int		ft_atoi(char *s);
+void	parse_input(t_philo *philo, int argc, char **argv);
 int		total_alloc(t_philo *philo, pid_t **philos_pid);
 int		t_philo_init(t_philo *philo);
 size_t	make_timestamp(struct timeval *start);
