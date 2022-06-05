@@ -30,6 +30,32 @@ void	philo_simulation(t_philo philo)
 	}
 }
 
+void	create_philos(t_philo *philo, pid_t *philos_pid)
+{
+	int	i;
+
+	// fork children -> creating philos;
+	i = 0;
+	while (i < philo->philo_num)
+	{
+		philos_pid[i] = fork();
+		if (philos_pid[i] < 0)
+		{
+			// free(philos_pid);
+			// philos_pid = NULL;
+			break ;
+			// return (-1);
+			// break -> kill 0 to i;
+		}
+		else if (philos_pid[i] == 0)
+		{
+			philo->id = i;
+			philo_simulation(*philo);
+		}
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	philo;
@@ -45,24 +71,7 @@ int	main(int argc, char **argv)
 		return (1);
 	t_philo_init(&philo);
 	printf("philo num : %d\n", philo.philo_num);
-	i = 0;
-	while (i < philo.philo_num)
-	{
-		philos_pid[i] = fork();
-		if (philos_pid[i] < 0)
-		{
-			free(philos_pid);
-			philos_pid = NULL;
-			return (-1);
-			// break -> kill 0 to i;
-		}
-		else if (philos_pid[i] == 0)
-		{
-			philo.id = i;
-			philo_simulation(philo);
-		}
-		i++;
-	}
+	create_philos(&philo, philos_pid);
 	status = 42;
 	i = 0;
 	full_philo = 0;
@@ -90,5 +99,7 @@ int	main(int argc, char **argv)
 		printf("All philo ate well. The end\n");
 	free(philos_pid);
 	// sem_close;
+	sem_close(philo.forks);
+	sem_close(philo.print);
 	return (0);
 }
