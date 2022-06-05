@@ -17,7 +17,7 @@ int	grab_fork(t_philo *philo)
 	// if philo is not dead or something;
 	// if (philo->philo_num == 1)
 	// 	return (0);
-	if ((int)make_timestamp(philo->last_meal) > philo->time_to_die)
+	if (should_philo_die(philo))
 		return (0);
 	else
 	{
@@ -40,14 +40,14 @@ void	eat_spaghetti(t_philo *philo)
 	struct timeval	duration;
 
 	// if philo isn's dead
-	if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
+	if (!should_philo_die(philo))
 	{
 		if (!grab_fork(philo))
 			return ;
 		gettimeofday(&duration, NULL);
 		gettimeofday(philo->last_meal, NULL);
 		// if philo isn't dead;
-		if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
+		if (!should_philo_die(philo))
 			print_statement(philo, "is eating");
 		(philo->num_of_must_eat)--;
 		usleep(philo->time_to_eat * 900);
@@ -66,11 +66,11 @@ void	sleep_after_diner(t_philo *philo)
 	struct timeval	duration;
 
 	// if philo isn't dead
-	if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
+	if (!should_philo_die(philo))
 	{
 		gettimeofday(&duration, NULL);
 		// if philo isn't dead
-		if ((int)make_timestamp(philo->last_meal) < philo->time_to_die)
+		if (!should_philo_die(philo))
 			print_statement(philo, "is sleeping");
 		usleep(philo->time_to_sleep * 900);
 		while (1)

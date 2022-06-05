@@ -40,6 +40,8 @@ int		total_alloc(t_philo *philo, pid_t **philos_pid);
 int		t_philo_init(t_philo *philo);
 size_t	make_timestamp(struct timeval *start);
 void	print_statement(t_philo	*philo, char *s);
+void	*check_death(void *void_philo);
+int		should_philo_die(t_philo *philo);
 int		grab_fork(t_philo *philo);
 void	leave_fork(t_philo *philo);
 void	eat_spaghetti(t_philo *philo);

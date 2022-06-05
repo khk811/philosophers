@@ -18,7 +18,8 @@ SRC=main_bonus.c \
 	parse_bonus.c \
 	struct_init_bonus.c \
 	philo_action_bonus.c \
-	time_bonus.c
+	time_bonus.c \
+	philo_status_bonus.c
 OBJ=$(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
