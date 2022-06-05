@@ -42,8 +42,11 @@ int	main(int argc, char **argv)
 	int		full_philo;
 
 	parse_input(&philo, argc, argv);
-	if (!total_alloc(&philo, &philos_pid))
+	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
+	if (!philos_pid)
 		return (1);
+	// if (!total_alloc(&philo, &philos_pid))
+	// 	return (1);
 	t_philo_init(&philo);
 	printf("philo num : %d\n", philo.philo_num);
 	i = 0;
@@ -90,6 +93,7 @@ int	main(int argc, char **argv)
 	if (full_philo == philo.philo_num)
 		printf("All philo ate well. The end\n");
 	// free(pid arr);
+	free(philos_pid);
 	// sem_close;
 	return (0);
 }

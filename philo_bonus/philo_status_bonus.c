@@ -10,16 +10,16 @@ void	print_statement(t_philo	*philo, char *s)
 
 void	*check_death(void *void_philo)
 {
-	t_philo	philo;
+	t_philo	*philo;
 	int		i;
 
-	philo = *((t_philo *)(void_philo));
+	philo = (t_philo *)(void_philo);
 	i = 0;
 	while (1)
 	{
-		if (should_philo_die(&philo))
+		if (should_philo_die(philo))
 		{
-			printf("%zu %d died\n", make_timestamp(philo.start), philo.id);
+			printf("%zu %d died\n", make_timestamp(philo->start), philo->id);
 			exit(42);
 		}
 		usleep(150);

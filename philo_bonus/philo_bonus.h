@@ -23,22 +23,22 @@
 
 typedef struct s_philo
 {
-	int		philo_num;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	size_t	num_of_must_eat;
-	sem_t	*forks;
-	sem_t	*print;
-	int		id;
-	struct timeval	*start;
-	struct timeval	*last_meal;
+	int				philo_num;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	size_t			num_of_must_eat;
+	sem_t			*forks;
+	sem_t			*print;
+	int				id;
+	struct timeval	start;
+	struct timeval	last_meal;
 }	t_philo;
 
 void	parse_input(t_philo *philo, int argc, char **argv);
-int		total_alloc(t_philo *philo, pid_t **philos_pid);
+// int		total_alloc(t_philo *philo, pid_t **philos_pid);
 int		t_philo_init(t_philo *philo);
-size_t	make_timestamp(struct timeval *start);
+size_t	make_timestamp(struct timeval start);
 void	print_statement(t_philo	*philo, char *s);
 void	*check_death(void *void_philo);
 int		should_philo_die(t_philo *philo);
