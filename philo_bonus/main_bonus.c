@@ -19,14 +19,12 @@ void	philo_simulation(t_philo philo)
 	pthread_create(&moni, NULL, check_death, &philo);
 	while (1)
 	{
-		// grab_fork(&philo);
 		eat_spaghetti(&philo);
 		if (philo.num_of_must_eat == 0)
-		{
 			exit(24);
-		}
 		sleep_after_diner(&philo);
-		if ((int)make_timestamp(philo.last_meal) < philo.time_to_die)
+		// philo_simulate args -> *philo or philo?
+		if (!should_philo_die(&philo))
 			print_statement(&philo, "is thinking");
 		usleep(150);
 	}
@@ -45,8 +43,6 @@ int	main(int argc, char **argv)
 	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
 	if (!philos_pid)
 		return (1);
-	// if (!total_alloc(&philo, &philos_pid))
-	// 	return (1);
 	t_philo_init(&philo);
 	printf("philo num : %d\n", philo.philo_num);
 	i = 0;
@@ -92,7 +88,6 @@ int	main(int argc, char **argv)
 	}
 	if (full_philo == philo.philo_num)
 		printf("All philo ate well. The end\n");
-	// free(pid arr);
 	free(philos_pid);
 	// sem_close;
 	return (0);
