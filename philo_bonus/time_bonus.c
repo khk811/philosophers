@@ -16,3 +16,14 @@ size_t	make_timestamp(struct timeval start)
 	start_time = get_milisecond(start.tv_sec, start.tv_usec);
 	return (curr_time - start_time);
 }
+
+void	usleep_accurately(struct timeval stamp, int usleep_duration)
+{
+	usleep(usleep_duration * 900);
+	while (1)
+	{
+		if ((int)make_timestamp(stamp) >= usleep_duration)
+			break ;
+		usleep(150);
+	}
+}

@@ -50,13 +50,14 @@ void	eat_spaghetti(t_philo *philo)
 		if (!should_philo_die(philo))
 			print_statement(philo, "is eating");
 		(philo->num_of_must_eat)--;
-		usleep(philo->time_to_eat * 900);
-		while (1)
-		{
-			if ((int)make_timestamp(duration) >= philo->time_to_eat)
-				break ;
-			usleep(150);
-		}
+		usleep_accurately(duration, philo->time_to_eat);
+		// usleep(philo->time_to_eat * 900);
+		// while (1)
+		// {
+		// 	if ((int)make_timestamp(duration) >= philo->time_to_eat)
+		// 		break ;
+		// 	usleep(150);
+		// }
 		leave_fork(philo);
 	}
 }
@@ -72,12 +73,13 @@ void	sleep_after_diner(t_philo *philo)
 		// if philo isn't dead
 		if (!should_philo_die(philo))
 			print_statement(philo, "is sleeping");
-		usleep(philo->time_to_sleep * 900);
-		while (1)
-		{
-			if ((int)make_timestamp(duration) >= philo->time_to_sleep)
-				break ;
-			usleep(150);
-		}
+		usleep_accurately(duration, philo->time_to_sleep);
+		// usleep(philo->time_to_sleep * 900);
+		// while (1)
+		// {
+		// 	if ((int)make_timestamp(duration) >= philo->time_to_sleep)
+		// 		break ;
+		// 	usleep(150);
+		// }
 	}
 }
