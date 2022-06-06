@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 14:52:42 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:12:05 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	main(int argc, char **argv)
 	t_philo	philo;
 	pid_t	*philos_pid;
 
-	parse_input(&philo, argc, argv);
+	if (!parse_input(&philo, argc, argv))
+		return (1);
 	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
 	if (!philos_pid)
 		return (1);

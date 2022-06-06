@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:04:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 20:02:58 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:08:12 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ int	parse_input(t_args *args, int argc, char **argv)
 {
 	if (argc == 5 || argc == 6)
 	{
-		(args)->philo_num = ft_atoi(argv[1]);
-		(args)->time_to_die = ft_atoi(argv[2]);
-		(args)->time_to_eat = ft_atoi(argv[3]);
-		(args)->time_to_sleep = ft_atoi(argv[4]);
-		if (argc == 6)
-			(args)->num_of_must_eat = ft_atoi(argv[5]);
-		else
-			args->num_of_must_eat = -1;
+		args->philo_num = ft_atoi(argv[1]);
+		args->time_to_die = ft_atoi(argv[2]);
+		args->time_to_eat = ft_atoi(argv[3]);
+		args->time_to_sleep = ft_atoi(argv[4]);
+		args->num_of_must_eat = -1;
+		if (argc == 6 && ft_atoi(argv[5]) > 0)
+			args->num_of_must_eat = ft_atoi(argv[5]);
+		else if (argc == 6 && ft_atoi(argv[5]) <= 0)
+			return (0);
 	}
 	if (args->philo_num < 1 || args->time_to_die < 1 || \
-	args->time_to_eat < 1 || args->time_to_sleep < 1 || \
-	args->num_of_must_eat == 0)
+	args->time_to_eat < 1 || args->time_to_sleep < 1)
 		return (0);
 	else
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 12:08:28 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 14:49:03 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:11:39 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	ft_atoi(char *s)
 	return (num);
 }
 
-void	parse_input(t_philo *philo, int argc, char **argv)
+int	parse_input(t_philo *philo, int argc, char **argv)
 {
 	if (argc == 5 || argc == 6)
 	{
@@ -50,9 +50,14 @@ void	parse_input(t_philo *philo, int argc, char **argv)
 		philo->time_to_die = ft_atoi(argv[2]);
 		philo->time_to_eat = ft_atoi(argv[3]);
 		philo->time_to_sleep = ft_atoi(argv[4]);
-		if (argc == 6)
+		philo->num_of_must_eat = -1;
+		if (argc == 6 && ft_atoi(argv[5]) > 0)
 			philo->num_of_must_eat = ft_atoi(argv[5]);
-		else
-			philo->num_of_must_eat = -1;
+		else if (argc == 6 && ft_atoi(argv[5]) <= 0)
+			return (0);
 	}
+	if (philo->philo_num < 1 || philo->time_to_die < 1 || \
+	philo->time_to_eat < 1 || philo->time_to_sleep < 1)
+		return (0);
+	return (1);
 }

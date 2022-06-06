@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 14:52:39 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:11:46 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_philo
 	struct timeval	last_meal;
 }	t_philo;
 
-void	parse_input(t_philo *philo, int argc, char **argv);
+int		parse_input(t_philo *philo, int argc, char **argv);
 int		t_philo_init(t_philo *philo);
 size_t	make_timestamp(struct timeval start);
 void	usleep_accurately(struct timeval stamp, int usleep_duration);
