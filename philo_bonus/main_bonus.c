@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 20:23:41 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 12:07:52 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void	create_philos(t_philo *philo, pid_t *philos_pid)
 	}
 }
 
+int	get_exit_status(int status)
+{
+	return ((status >> 8) & (0x000000ff));
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	philo;
@@ -78,7 +83,8 @@ int	main(int argc, char **argv)
 	while (i < philo.philo_num)
 	{
 		waitpid(-1, &status, 0);
-		if (WEXITSTATUS(status) == 42)
+		// if (WEXITSTATUS(status) == 42)
+		if (get_exit_status(status) == 42)
 		{
 			j = 0;
 			while (j < philo.philo_num)
@@ -90,7 +96,8 @@ int	main(int argc, char **argv)
 			printf("send kill sig to all\n");
 			break ;
 		}
-		if (WEXITSTATUS(status) == 24)
+		// if (WEXITSTATUS(status) == 24)
+		if (get_exit_status(status) == 24)
 			full_philo++;
 		usleep(150);
 		i++;
