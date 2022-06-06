@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 12:07:52 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 12:16:49 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,44 @@ int	get_exit_status(int status)
 	return ((status >> 8) & (0x000000ff));
 }
 
+void	check_philos(pid_t *philos_pid, t_philo *philo)
+{
+	int	status;
+	int	i;
+	int	j;
+	int	full_philo;
+
+	status = 42;
+	i = 0;
+	full_philo = 0;
+	while (i < philo->philo_num)
+	{
+		waitpid(-1, &status, 0);
+		if (get_exit_status(status) == 42)
+		{
+			j = 0;
+			while (j < philo->philo_num)
+			{
+				if (i != j)
+					kill(philos_pid[j], SIGKILL);
+				j++;
+			}
+			printf("send kill sig to all\n");
+			return ;
+		}
+		if (get_exit_status(status) == 24)
+			full_philo++;
+		usleep(150);
+		i++;
+	}
+	if (full_philo == philo->philo_num)
+		printf("All philo ate well. The end\n");
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo	philo;
 	pid_t	*philos_pid;
-	int		i;
-	int		j;
-	int		status;
-	int		full_philo;
 
 	parse_input(&philo, argc, argv);
 	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
@@ -77,33 +107,7 @@ int	main(int argc, char **argv)
 	t_philo_init(&philo);
 	printf("philo num : %d\n", philo.philo_num);
 	create_philos(&philo, philos_pid);
-	status = 42;
-	i = 0;
-	full_philo = 0;
-	while (i < philo.philo_num)
-	{
-		waitpid(-1, &status, 0);
-		// if (WEXITSTATUS(status) == 42)
-		if (get_exit_status(status) == 42)
-		{
-			j = 0;
-			while (j < philo.philo_num)
-			{
-				if (i != j)
-					kill(philos_pid[j], SIGKILL);
-				j++;
-			}
-			printf("send kill sig to all\n");
-			break ;
-		}
-		// if (WEXITSTATUS(status) == 24)
-		if (get_exit_status(status) == 24)
-			full_philo++;
-		usleep(150);
-		i++;
-	}
-	if (full_philo == philo.philo_num)
-		printf("All philo ate well. The end\n");
+	check_philos(philos_pid, &philo);
 	free(philos_pid);
 	// sem_close;
 	sem_close(philo.forks);
