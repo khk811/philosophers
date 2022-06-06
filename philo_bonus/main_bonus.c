@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 14:03:53 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 14:38:51 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ void	philo_simulation(t_philo philo)
 	}
 }
 
-void	kill_philos(pid_t *philos_pid, int philo_num, int target_pid)
+void	kill_philos(pid_t *philos_pid, int philo_num, int dead_pid)
 {
 	int	i;
-	int	check;
 
 	i = 0;
 	while (i < philo_num)
 	{
-		if (target_pid != (int)(philos_pid[i]))
-			check = kill(philos_pid[i], SIGKILL);
+		if (dead_pid != (int)(philos_pid[i]))
+			kill(philos_pid[i], SIGKILL);
 		i++;
 	}
 }
@@ -48,7 +47,6 @@ int	create_philos(t_philo *philo, pid_t *philos_pid)
 {
 	int	i;
 
-	// fork children -> creating philos;
 	i = 0;
 	while (i < philo->philo_num)
 	{
@@ -78,22 +76,21 @@ void	check_philos(pid_t *philos_pid, t_philo *philo)
 	int	status;
 	int	i;
 	int	full_philo;
+	int	dead_philo;
 
 	status = 42;
 	i = 0;
 	full_philo = 0;
 	while (i < philo->philo_num)
 	{
-		waitpid(-1, &status, 0);
+		dead_philo = waitpid(-1, &status, 0);
 		if (get_exit_status(status) == 42)
 		{
-			kill_philos(philos_pid, philo->philo_num, (int)philos_pid[i]);
-			// printf("send kill sig to all\n");
+			kill_philos(philos_pid, philo->philo_num, dead_philo);
 			return ;
 		}
 		if (get_exit_status(status) == 24)
 			full_philo++;
-		usleep(150);
 		i++;
 	}
 	if (full_philo == philo->philo_num)
