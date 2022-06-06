@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:54:11 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:59:00 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	check_philos(pid_t *philos_pid, t_philo *philo)
 		i++;
 	}
 	if (full_philo == philo->philo_num)
-		printf("All philo ate well. The end\n");
+		printf("All philosophers ate well. The end\n");
 }
 
 int	main(int argc, char **argv)

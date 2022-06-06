@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 21:02:51 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 20:02:39 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:59:02 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	watch_philos(t_args *args, t_info *info, t_philo *philos)
 		pthread_mutex_lock(&(info->full));
 		if (info->hungry_philo == 0)
 		{
-			printf("Philos are full. end of program\n");
+			printf("All philosophers ate well. The end\n");
 			pthread_mutex_unlock(&(info->full));
 			break ;
 		}
