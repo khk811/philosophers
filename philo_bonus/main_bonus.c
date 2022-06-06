@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 13:55:12 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 14:03:53 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	kill_philos(pid_t *philos_pid, int philo_num, int target_pid)
 	}
 }
 
-void	create_philos(t_philo *philo, pid_t *philos_pid)
+int	create_philos(t_philo *philo, pid_t *philos_pid)
 {
 	int	i;
 
@@ -56,7 +56,7 @@ void	create_philos(t_philo *philo, pid_t *philos_pid)
 		if (philos_pid[i] < 0)
 		{
 			kill_philos(philos_pid, i, -1);
-			break ;
+			return (0);
 		}
 		else if (philos_pid[i] == 0)
 		{
@@ -65,6 +65,7 @@ void	create_philos(t_philo *philo, pid_t *philos_pid)
 		}
 		i++;
 	}
+	return (1);
 }
 
 int	get_exit_status(int status)
@@ -109,8 +110,11 @@ int	main(int argc, char **argv)
 	if (!philos_pid)
 		return (1);
 	t_philo_init(&philo);
-	// printf("philo num : %d\n", philo.philo_num);
-	create_philos(&philo, philos_pid);
+	if (!create_philos(&philo, philos_pid))
+	{
+		free(philos_pid);
+		return (1);
+	}
 	check_philos(philos_pid, &philo);
 	free(philos_pid);
 	sem_close(philo.forks);
