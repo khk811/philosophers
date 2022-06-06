@@ -6,13 +6,13 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 14:48:07 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 14:48:10 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:46:47 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	print_statement(t_philo	*philo, char *s)
+void	print_status(t_philo	*philo, char *s)
 {
 	sem_wait(philo->print);
 	if (!should_philo_die(philo))

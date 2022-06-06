@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 12:08:28 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:40:04 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:47:41 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,5 @@ int	parse_input(t_philo *philo, int argc, char **argv)
 	if (philo->philo_num < 1 || philo->time_to_die < 1 || \
 	philo->time_to_eat < 1 || philo->time_to_sleep < 1)
 		return (0);
-	printf("num to eat >> %d\n", ft_atoi(argv[5]));
 	return (1);
 }

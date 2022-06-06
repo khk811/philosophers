@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 11:12:09 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 13:51:02 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:48:40 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	grab_fork(t_philo *philo)
 	else
 	{
 		sem_wait(philo->forks);
-		print_statement(philo, "has taken a fork");
+		print_status(philo, "has taken a fork");
 		sem_wait(philo->forks);
-		print_statement(philo, "has taken a fork");
+		print_status(philo, "has taken a fork");
 		return (1);
 	}
 }
@@ -43,7 +43,7 @@ void	eat_spaghetti(t_philo *philo)
 		gettimeofday(&duration, NULL);
 		gettimeofday(&(philo->last_meal), NULL);
 		if (!should_philo_die(philo))
-			print_statement(philo, "is eating");
+			print_status(philo, "is eating");
 		(philo->num_of_must_eat)--;
 		usleep_accurately(duration, philo->time_to_eat);
 		leave_fork(philo);
@@ -58,7 +58,7 @@ void	sleep_after_diner(t_philo *philo)
 	{
 		gettimeofday(&duration, NULL);
 		if (!should_philo_die(philo))
-			print_statement(philo, "is sleeping");
+			print_status(philo, "is sleeping");
 		usleep_accurately(duration, philo->time_to_sleep);
 	}
 }
