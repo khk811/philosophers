@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:48:14 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 16:20:24 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,23 @@ typedef struct s_philo
 	struct timeval	last_meal;
 }	t_philo;
 
+// parce_bonus.c
 int		parse_input(t_philo *philo, int argc, char **argv);
+// struct_init_bonus.c
 int		t_philo_init(t_philo *philo);
+// time_bonus.c
 size_t	make_timestamp(struct timeval start);
 void	usleep_accurately(struct timeval stamp, int usleep_duration);
+// philo_status_bonus.c
 void	print_status(t_philo	*philo, char *s);
 void	*check_death(void *void_philo);
 int		should_philo_die(t_philo *philo);
+// philo_action_bonus.c
 int		grab_fork(t_philo *philo);
 void	leave_fork(t_philo *philo);
 void	eat_spaghetti(t_philo *philo);
 void	sleep_after_diner(t_philo *philo);
+// utils_pid_bonus.c
 int		get_exit_status(int status);
 void	kill_philos(pid_t *philos_pid, int philo_num, int dead_pid);
 
