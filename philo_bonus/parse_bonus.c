@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 12:08:28 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:11:39 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:40:04 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,23 @@
 
 static int	ft_isdigit(char c)
 {
-	if (c >= '0' || c <= '9')
+	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
+}
+
+static int	ft_is_number(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_isdigit(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 static int	ft_atoi(char *s)
@@ -32,6 +46,8 @@ static int	ft_atoi(char *s)
 			sign *= -1;
 		s++;
 	}
+	if (!ft_is_number(s))
+		return (-1);
 	while (*s && ft_isdigit(*s))
 	{
 		num *= 10;
@@ -59,5 +75,6 @@ int	parse_input(t_philo *philo, int argc, char **argv)
 	if (philo->philo_num < 1 || philo->time_to_die < 1 || \
 	philo->time_to_eat < 1 || philo->time_to_sleep < 1)
 		return (0);
+	printf("num to eat >> %d\n", ft_atoi(argv[5]));
 	return (1);
 }
