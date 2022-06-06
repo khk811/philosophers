@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 12:16:49 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 13:55:12 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,20 @@ void	philo_simulation(t_philo philo)
 	}
 }
 
+void	kill_philos(pid_t *philos_pid, int philo_num, int target_pid)
+{
+	int	i;
+	int	check;
+
+	i = 0;
+	while (i < philo_num)
+	{
+		if (target_pid != (int)(philos_pid[i]))
+			check = kill(philos_pid[i], SIGKILL);
+		i++;
+	}
+}
+
 void	create_philos(t_philo *philo, pid_t *philos_pid)
 {
 	int	i;
@@ -41,11 +55,8 @@ void	create_philos(t_philo *philo, pid_t *philos_pid)
 		philos_pid[i] = fork();
 		if (philos_pid[i] < 0)
 		{
-			// free(philos_pid);
-			// philos_pid = NULL;
+			kill_philos(philos_pid, i, -1);
 			break ;
-			// return (-1);
-			// break -> kill 0 to i;
 		}
 		else if (philos_pid[i] == 0)
 		{
@@ -65,7 +76,6 @@ void	check_philos(pid_t *philos_pid, t_philo *philo)
 {
 	int	status;
 	int	i;
-	int	j;
 	int	full_philo;
 
 	status = 42;
@@ -76,14 +86,8 @@ void	check_philos(pid_t *philos_pid, t_philo *philo)
 		waitpid(-1, &status, 0);
 		if (get_exit_status(status) == 42)
 		{
-			j = 0;
-			while (j < philo->philo_num)
-			{
-				if (i != j)
-					kill(philos_pid[j], SIGKILL);
-				j++;
-			}
-			printf("send kill sig to all\n");
+			kill_philos(philos_pid, philo->philo_num, (int)philos_pid[i]);
+			// printf("send kill sig to all\n");
 			return ;
 		}
 		if (get_exit_status(status) == 24)
@@ -105,11 +109,10 @@ int	main(int argc, char **argv)
 	if (!philos_pid)
 		return (1);
 	t_philo_init(&philo);
-	printf("philo num : %d\n", philo.philo_num);
+	// printf("philo num : %d\n", philo.philo_num);
 	create_philos(&philo, philos_pid);
 	check_philos(philos_pid, &philo);
 	free(philos_pid);
-	// sem_close;
 	sem_close(philo.forks);
 	sem_close(philo.print);
 	return (0);
