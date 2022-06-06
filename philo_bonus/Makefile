@@ -6,7 +6,7 @@
 #    By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/27 11:57:28 by hyunkkim          #+#    #+#              #
-#    Updated: 2022/06/06 12:16:04 by hyunkkim         ###   ########seoul.kr   #
+#    Updated: 2022/06/06 14:53:04 by hyunkkim         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRC=main_bonus.c \
 	struct_init_bonus.c \
 	philo_action_bonus.c \
 	time_bonus.c \
-	philo_status_bonus.c
+	philo_status_bonus.c \
+	utils_pid_bonus.c
 OBJ=$(SRC:.c=.o)
 
 $(NAME) : $(OBJ)

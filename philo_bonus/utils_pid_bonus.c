@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct_init_bonus.c                                :+:      :+:    :+:   */
+/*   utils_pid_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/02 16:34:46 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 14:47:52 by hyunkkim         ###   ########seoul.kr  */
+/*   Created: 2022/06/06 14:51:34 by hyunkkim          #+#    #+#             */
+/*   Updated: 2022/06/06 14:52:45 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-int	t_philo_init(t_philo *philo)
+int	get_exit_status(int status)
 {
-	sem_unlink("forks");
-	sem_unlink("print");
-	philo->forks = sem_open("forks", O_CREAT, 0644, \
-	(unsigned int)(philo->philo_num));
-	philo->print = sem_open("print", O_CREAT, 0644, 1);
-	gettimeofday(&(philo->start), NULL);
-	gettimeofday(&(philo->last_meal), NULL);
-	return (1);
+	return ((status >> 8) & (0x000000ff));
+}
+
+void	kill_philos(pid_t *philos_pid, int philo_num, int dead_pid)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo_num)
+	{
+		if (dead_pid != (int)(philos_pid[i]))
+			kill(philos_pid[i], SIGKILL);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/02 16:50:54 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 14:52:39 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ int		grab_fork(t_philo *philo);
 void	leave_fork(t_philo *philo);
 void	eat_spaghetti(t_philo *philo);
 void	sleep_after_diner(t_philo *philo);
+int		get_exit_status(int status);
+void	kill_philos(pid_t *philos_pid, int philo_num, int dead_pid);
 
 #endif
