@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:06:41 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/03 19:51:54 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 16:02:30 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,13 @@ int	eat_spaghetti(t_philo *philo)
 int	sleep_after_diner(t_philo *philo)
 {
 	struct timeval	duration;
-	int				ret;
 
-	ret = did_someone_die(philo->info);
-	if (!ret)
+	if (!did_someone_die(philo->info))
 	{
 		gettimeofday(&duration, NULL);
 		if (!did_someone_die(philo->info))
 			print_status(philo, "is sleeping");
 		usleep_accurately(duration, philo->args->time_to_sleep);
 	}
-	return (ret);
+	return (did_someone_die(philo->info));
 }
