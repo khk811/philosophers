@@ -6,27 +6,26 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:49:16 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/06 15:54:11 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	feed_philos(t_philo philo)
+void	feed_philos(t_philo *philo)
 {
 	pthread_t	moni;
 
-	if (pthread_create(&moni, NULL, check_death, &philo) != 0)
+	if (pthread_create(&moni, NULL, check_death, (void *)philo) != 0)
 		exit(42);
 	while (1)
 	{
-		eat_spaghetti(&philo);
-		if (philo.num_of_must_eat == 0)
+		eat_spaghetti(philo);
+		if (philo->num_of_must_eat == 0)
 			exit(24);
-		sleep_after_diner(&philo);
-		// philo_simulate args -> *philo or philo?
-		if (!should_philo_die(&philo))
-			print_status(&philo, "is thinking");
+		sleep_after_diner(philo);
+		if (!should_philo_die(philo))
+			print_status(philo, "is thinking");
 		usleep(150);
 	}
 }
@@ -47,7 +46,7 @@ int	create_philos(t_philo *philo, pid_t *philos_pid)
 		else if (philos_pid[i] == 0)
 		{
 			philo->id = i;
-			feed_philos(*philo);
+			feed_philos(philo);
 		}
 		i++;
 	}
