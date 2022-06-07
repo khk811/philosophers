@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/07 11:33:00 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/07 11:36:30 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	check_philos(pid_t *philos_pid, t_philo *philo)
 	int	full_philo;
 	int	dead_philo;
 
-	status = 42;
+	status = 0;
 	i = 0;
 	full_philo = 0;
 	while (i < philo->philo_num)
