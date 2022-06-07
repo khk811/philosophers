@@ -6,7 +6,7 @@
 #    By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 20:51:27 by hyunkkim          #+#    #+#              #
-#    Updated: 2022/06/03 20:00:16 by hyunkkim         ###   ########seoul.kr   #
+#    Updated: 2022/06/07 11:00:01 by hyunkkim         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ clean :
 fclean : clean
 	$(RM) $(NAME)
 
-re : fclean all
+re :
+	$(MAKE) fclean
+	$(MAKE) all
 
 .PHONY : all clean fclean re
