@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:53:17 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 16:20:24 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/07 10:53:37 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <semaphore.h>
 # include <signal.h>
 
