@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 11:52:19 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/06/06 15:59:00 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/06/07 11:33:00 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,11 @@ int	main(int argc, char **argv)
 	philos_pid = malloc(sizeof(pid_t) * philo.philo_num);
 	if (!philos_pid)
 		return (1);
-	t_philo_init(&philo);
+	if (!t_philo_init(&philo))
+	{
+		free(philos_pid);
+		return (1);
+	}
 	if (!create_philos(&philo, philos_pid))
 	{
 		free(philos_pid);
